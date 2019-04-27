@@ -1,12 +1,14 @@
 package ws;
 
 
+import model.Confiq;
 import model.GeneralModel;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import service.GeneralService;
 import util.Convert2Json;
+import util.JsonUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -34,6 +36,38 @@ public class GetGeneralModel {
         return jsonObject;
     }
 
+    @POST
+    @Path("/getConfiq")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONObject getConfiq(String str) {
+        System.out.println("@@@>" + str);
+        JSONObject confiqJ;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            confiqJ = new JSONObject(str);
+            Confiq confiq = JsonUtil.extractConfiq(confiqJ);
+            confiq.setUserName("newSeen");
+            ArrayList<Long> list = new ArrayList<>();
+            list.add(1L);
+            list.add(1L);
+            confiq.setLastIds(list);
+            JSONObject c = JsonUtil.parseConfiq(confiq);
+            jsonObject.put("confiq", c);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    @POST
+    @Path("/{tableIx}/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
+    public JSONObject getGMTable(String str, @PathParam("tableIx") String tableIx, @PathParam("id") String id) {
+        System.out.println("str:" + tableIx + " and " + id + ",Object:" + str);
+        return getAllMon();
+    }
 
     @POST
     @Path("/postJson")
@@ -58,4 +92,6 @@ public class GetGeneralModel {
         }
         return jsonObject;
     }
+
+
 }

@@ -15,6 +15,14 @@ import java.util.Random;
  */
 public class GeneralModel implements Serializable{
 
+    public static final String TITLE$ = "title";
+    public static final String HEADERL$ = "headerL";
+    public static final String HEADERR$ = "headerR";
+    public static final String BODY$ = "body";
+    public static final String FOOTERL$ = "footerL";
+    public static final String FOOTERR$ = "footerR";
+
+
     String title;
     String body;
     String headerL;
@@ -22,7 +30,7 @@ public class GeneralModel implements Serializable{
     String footerL;
     String footerR;
     Long id;
-    // Boolean stared;
+    boolean stared = false;
     //TITLE = 1;HEADER_R = 2;HEADER_L = 3;BODY = 4;FOOTER_R = 5;FOOTER_L = 6;
     public static int TITLE = 1;
     public static int HEADER_R = 2;
@@ -84,15 +92,14 @@ public class GeneralModel implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-/*
-    public Boolean getStared() {
+
+    public boolean getStared() {
         return stared;
     }
 
-    public void setStared(Boolean stared) {
+    public void setStared(boolean stared) {
         this.stared = stared;
     }
-*/
 
     public String getFooterL() {
         return footerL;

@@ -21,6 +21,7 @@ public class Rater implements Filter {
             if (attribute == null) {
                 request.getSession().setAttribute("XX", "SID:" + request.getSession().getId());
             }
+            System.err.println(request.getRequestURI()+"    -> called");
             filterChain.doFilter(servletRequest, servletResponse);
             /*if (request.getSession().getAttribute("role") != null) {
                 if (request.getSession().getAttribute("role").equals("register1"))
