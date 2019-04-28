@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="moz.model">
+    <class name="Auction" table="Auction">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="description" type="java.lang.String">
+            <column name="description" sql-type="VARCHAR2(1000)"/>
+        </property>
+        <property name="eDate" type="java.lang.Integer">
+            <column name="eDate" sql-type="NUMBER(8)"/>
+        </property>
+        <property name="client" type="java.lang.Long">
+            <column name="client" sql-type="NUMBER(10)"/>
+        </property>
+        <property name="buTitle" type="java.lang.Long">
+            <column name="buTitle" sql-type="NUMBER(10)"/>
+        </property>
+    </class>
+
+    <class name="BusinessT" table="BusinessT">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="title" type="java.lang.String">
+            <column name="title" sql-type="VARCHAR2(100)"/>
+        </property>
+    </class>
+
+    <class name="Client" table="Client">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="city" type="java.lang.Long">
+            <column name="city" sql-type="NUMBER(10)"/>
+        </property>
+    </class>
+
+    <class name="City" table="City">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="code" type="java.lang.Integer">
+            <column name="code" sql-type="NUMBER(3)"/>
+        </property>
+        <property name="province" type="java.lang.Long">
+            <column name="province" sql-type="NUMBER(10)"/>
+        </property>
+    </class>
+
+    <class name="Province" table="province">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="code" type="java.lang.Integer">
+            <column name="code" sql-type="NUMBER(3)"/>
+        </property>
+    </class>
+
+    <class name="CityView" table="CityView">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="code" type="java.lang.Integer">
+            <column name="code" sql-type="NUMBER(3)"/>
+        </property>
+        <property name="province" type="java.lang.String">
+            <column name="province" sql-type="VARCHAR2(100)"/>
+        </property>
+    </class>
+
+    <class name="ClientView" table="ClientView">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="city" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="province" type="java.lang.String">
+            <column name="province" sql-type="VARCHAR2(100)"/>
+        </property>
+    </class>
+
+    <class name="AuctionView" table="AuctionView">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+        </id>
+        <property name="description" type="java.lang.String">
+            <column name="description" sql-type="VARCHAR2(1000)"/>
+        </property>
+        <property name="eDate" type="java.lang.Integer">
+            <column name="eDate" sql-type="NUMBER(8)"/>
+        </property>
+        <property name="client" type="java.lang.String">
+            <column name="client" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="buTitle" type="java.lang.String">
+            <column name="buTitle" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="city" type="java.lang.String">
+            <column name="city" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="province" type="java.lang.String">
+            <column name="province" sql-type="VARCHAR2(100)"/>
+        </property>
+    </class>
+
+</hibernate-mapping>

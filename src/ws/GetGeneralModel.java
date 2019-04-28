@@ -3,6 +3,7 @@ package ws;
 
 import model.Confiq;
 import model.GeneralModel;
+import model.TagVisiblity;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -48,10 +49,17 @@ public class GetGeneralModel {
             confiqJ = new JSONObject(str);
             Confiq confiq = JsonUtil.extractConfiq(confiqJ);
             confiq.setUserName("newSeen");
-            ArrayList<Long> list = new ArrayList<>();
-            list.add(1L);
-            list.add(1L);
+            ArrayList<Long> list = GeneralService.getInstance().getLastGeneralIds();
             confiq.setLastIds(list);
+            confiq.setHaveNewChange(true);
+            ArrayList<String> names = new ArrayList<>();
+            names.add("qq1");
+            names.add("33ew");
+            confiq.setLastTablesName(names);
+            ArrayList<TagVisiblity> tagV = new ArrayList<>();
+            tagV.add(new TagVisiblity().fillMock());
+            tagV.add(new TagVisiblity().fillMock().doStarVisible(true));
+            confiq.setTagVisiblity(tagV);
             JSONObject c = JsonUtil.parseConfiq(confiq);
             jsonObject.put("confiq", c);
         } catch (JSONException e) {
@@ -64,9 +72,20 @@ public class GetGeneralModel {
     @Path("/{tableIx}/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.TEXT_PLAIN)
-    public JSONObject getGMTable(String str, @PathParam("tableIx") String tableIx, @PathParam("id") String id) {
+    public JSONObject getGMTable(String str, @PathParam("tableIx") Integer tableIx, @PathParam("id") Long id) {
         System.out.println("str:" + tableIx + " and " + id + ",Object:" + str);
-        return getAllMon();
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+        ArrayList<GeneralModel> list = GeneralService.getInstance().getGeneralListAfter(tableIx, id);
+        for (GeneralModel gm : list) {
+            array.put(Convert2Json.parseGM(gm));
+        }
+        try {
+            jsonObject.put("dataList", array);
+        } catch (JSONException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return jsonObject;
     }
 
     @POST

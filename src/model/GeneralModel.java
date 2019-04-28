@@ -21,7 +21,7 @@ public class GeneralModel implements Serializable{
     public static final String BODY$ = "body";
     public static final String FOOTERL$ = "footerL";
     public static final String FOOTERR$ = "footerR";
-
+    public static final String STAR$ = "star";
 
     String title;
     String body;

@@ -1,6 +1,9 @@
 package service;
 
 import model.GeneralModel;
+import moz.model.Auction;
+import moz.model.AuctionView;
+import util.GMFactory;
 
 import java.util.ArrayList;
 
@@ -25,4 +28,36 @@ public class GeneralService {
         return testGeneralList;
     }
 
+    public ArrayList<GeneralModel> getAllGeneralList(Integer tableIx) {
+        ServiceImpl<Auction, AuctionView> service = ServiceFactory.getInstance().o().get(Auction.class);
+        ArrayList<AuctionView> auctionViews = service.loadAllView();
+        ArrayList<GeneralModel> list = new ArrayList<>();
+        for (AuctionView auctionView : auctionViews) {
+            GMFactory.getGM(auctionView);
+        }
+        return list;
+    }
+
+    public ArrayList<GeneralModel> getGeneralListAfter(Integer tableIx, Long id) {
+        ServiceImpl<Auction, AuctionView> service = ServiceFactory.getInstance().o().get(Auction.class);
+        ArrayList<AuctionView> auctionViews = service.loadAllViewAfter(id);
+        ArrayList<GeneralModel> list = new ArrayList<>();
+        for (AuctionView auctionView : auctionViews) {
+            list.add(GMFactory.getGM(auctionView));
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<GeneralModel> list = GeneralService.getInstance().getGeneralListAfter(0, (long) 0);
+        System.out.println(list.size());
+    }
+
+    public ArrayList<Long> getLastGeneralIds() {
+        ArrayList<Long> list = new ArrayList<>();
+        ServiceImpl<Auction, AuctionView> service = ServiceFactory.getInstance().o().get(Auction.class);
+        list.add(service.getLastId());
+        list.add(service.getLastId());
+        return list;
+    }
 }
