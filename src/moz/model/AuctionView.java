@@ -10,6 +10,8 @@ public class AuctionView extends BaseModel {
     private String buTitle;
     private String city;
     private String province;
+    private Long cityId;
+    private Long provinceId;
 
     public String getDescription() {
         return description;
@@ -57,5 +59,21 @@ public class AuctionView extends BaseModel {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    public Long getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
+
+    public Long getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Long provinceId) {
+        this.provinceId = provinceId;
     }
 }

@@ -6,7 +6,9 @@
     <class name="Auction" table="Auction">
         <id name="id" type="long">
             <column name="id" sql-type="NUMBER"/>
-            <generator class="increment"/>
+            <generator class="native">
+                <param name="sequence">seq_auction</param>
+            </generator>
         </id>
         <property name="description" type="java.lang.String">
             <column name="description" sql-type="VARCHAR2(1000)"/>
@@ -25,7 +27,9 @@
     <class name="BusinessT" table="BusinessT">
         <id name="id" type="long">
             <column name="id" sql-type="NUMBER"/>
-            <generator class="increment"/>
+            <generator class="native">
+                <param name="sequence">seq_businessT</param>
+            </generator>
         </id>
         <property name="title" type="java.lang.String">
             <column name="title" sql-type="VARCHAR2(100)"/>
@@ -35,7 +39,9 @@
     <class name="Client" table="Client">
         <id name="id" type="long">
             <column name="id" sql-type="NUMBER"/>
-            <generator class="increment"/>
+            <generator class="native">
+                <param name="sequence">seq_client</param>
+            </generator>
         </id>
         <property name="name" type="java.lang.String">
             <column name="name" sql-type="VARCHAR2(100)"/>
@@ -48,7 +54,9 @@
     <class name="City" table="City">
         <id name="id" type="long">
             <column name="id" sql-type="NUMBER"/>
-            <generator class="increment"/>
+            <generator class="native">
+                <param name="sequence">seq_city</param>
+            </generator>
         </id>
         <property name="name" type="java.lang.String">
             <column name="name" sql-type="VARCHAR2(100)"/>
@@ -64,7 +72,9 @@
     <class name="Province" table="province">
         <id name="id" type="long">
             <column name="id" sql-type="NUMBER"/>
-            <generator class="increment"/>
+            <generator class="native">
+                <param name="sequence">seq_province</param>
+            </generator>
         </id>
         <property name="name" type="java.lang.String">
             <column name="name" sql-type="VARCHAR2(100)"/>
@@ -125,6 +135,12 @@
         </property>
         <property name="province" type="java.lang.String">
             <column name="province" sql-type="VARCHAR2(100)"/>
+        </property>
+        <property name="cityId" type="java.lang.Long">
+            <column name="cityId" sql-type="NUMBER"/>
+        </property>
+        <property name="provinceId" type="java.lang.Long">
+            <column name="provinceId" sql-type="NUMBER"/>
         </property>
     </class>
 

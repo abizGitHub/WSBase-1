@@ -29,4 +29,9 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
     public ArrayList<V> loadAllViewAfter(Long id);
 
     public Long getLastId();
+
+    public ArrayList<M> loadAllAfter(Long id, String condition);
+
+    public ArrayList<Long> loadAllIdAfter(String select, Long id, String condition);
+
 }

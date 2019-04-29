@@ -1,63 +1,20 @@
 package service;
 
 import model.GeneralModel;
-import moz.model.Auction;
-import moz.model.AuctionView;
-import util.GMFactory;
+import model.ModelMap;
 
 import java.util.ArrayList;
 
-public class GeneralService {
+public interface GeneralService {
+    ArrayList<GeneralModel> getTestGeneralList();
 
-    private static GeneralService ourInstance = new GeneralService();
+    ArrayList<GeneralModel> getAllGeneralList(Integer tableIx);
 
-    public static GeneralService getInstance() {
-        return ourInstance;
-    }
+    ArrayList<GeneralModel> getGeneralListAfter(Integer tableIx, Long id);
 
-    private GeneralService() {
-    }
+    ArrayList<Long> getLastGeneralIds();
 
-    public ArrayList<GeneralModel> getTestGeneralList() {
-        ArrayList<GeneralModel> testGeneralList = new ArrayList<>();
-        for (int i = 0; i < 3000; i++) {
-            GeneralModel generalModel = new GeneralModel();
-            generalModel.fillMock();
-            testGeneralList.add(generalModel);
-        }
-        return testGeneralList;
-    }
+    ArrayList<ModelMap> getModelMapAfter(Long lastModelMapId);
 
-    public ArrayList<GeneralModel> getAllGeneralList(Integer tableIx) {
-        ServiceImpl<Auction, AuctionView> service = ServiceFactory.getInstance().o().get(Auction.class);
-        ArrayList<AuctionView> auctionViews = service.loadAllView();
-        ArrayList<GeneralModel> list = new ArrayList<>();
-        for (AuctionView auctionView : auctionViews) {
-            GMFactory.getGM(auctionView);
-        }
-        return list;
-    }
-
-    public ArrayList<GeneralModel> getGeneralListAfter(Integer tableIx, Long id) {
-        ServiceImpl<Auction, AuctionView> service = ServiceFactory.getInstance().o().get(Auction.class);
-        ArrayList<AuctionView> auctionViews = service.loadAllViewAfter(id);
-        ArrayList<GeneralModel> list = new ArrayList<>();
-        for (AuctionView auctionView : auctionViews) {
-            list.add(GMFactory.getGM(auctionView));
-        }
-        return list;
-    }
-
-    public static void main(String[] args) {
-        ArrayList<GeneralModel> list = GeneralService.getInstance().getGeneralListAfter(0, (long) 0);
-        System.out.println(list.size());
-    }
-
-    public ArrayList<Long> getLastGeneralIds() {
-        ArrayList<Long> list = new ArrayList<>();
-        ServiceImpl<Auction, AuctionView> service = ServiceFactory.getInstance().o().get(Auction.class);
-        list.add(service.getLastId());
-        list.add(service.getLastId());
-        return list;
-    }
+    ArrayList<Long> getModelMap2DeleteAfter(Long lastModelMapId);
 }

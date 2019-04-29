@@ -1,7 +1,6 @@
 package service;
 
 import model.BaseModel;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -102,12 +101,32 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
         return (Long) session.createQuery("select max(id) from " + clazz.getName()).uniqueResult();
     }
 
+    @Override
+    public ArrayList<T> loadAllAfter(Long id, String condition) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        ArrayList<T> list = (ArrayList<T>)
+                session.createQuery("from " + clazz.getName() + " p where p.id > " + id + " AND " + condition + " order by p.id desc")
+                        .list();
+        session.close();
+        return list;
+    }
+
+    @Override
+    public ArrayList<Long> loadAllIdAfter(String select, Long id, String condition) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        ArrayList<Long> list = (ArrayList<Long>)
+                session.createQuery(select + clazz.getName() + " p where p.id > " + id + " AND " + condition + " order by p.id desc")
+                        .list();
+        session.close();
+        return list;
+    }
+
     public Class getClazz() {
         return clazz;
     }
 
     public static void main(String[] args) {
-        GeneralService.getInstance().getAllGeneralList(0);
+        GeneralServiceImpl.getInstance().getAllGeneralList(0);
     }
 
 }

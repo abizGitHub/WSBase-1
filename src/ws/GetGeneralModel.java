@@ -7,7 +7,7 @@ import model.TagVisiblity;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import service.GeneralService;
+import service.GeneralServiceImpl;
 import util.Convert2Json;
 import util.JsonUtil;
 
@@ -25,7 +25,7 @@ public class GetGeneralModel {
         System.err.println("/rest/gm/getTestGeneralList   called");
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();
-        ArrayList<GeneralModel> list = GeneralService.getInstance().getTestGeneralList();
+        ArrayList<GeneralModel> list = GeneralServiceImpl.getInstance().getTestGeneralList();
         for (GeneralModel gm : list) {
             array.put(Convert2Json.parseGM(gm));
         }
@@ -41,15 +41,15 @@ public class GetGeneralModel {
     @Path("/getConfiq")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public JSONObject getConfiq(String str) {
-        System.out.println("@@@>" + str);
-        JSONObject confiqJ;
-        JSONObject jsonObject = new JSONObject();
+    public JSONObject getConfiq(String strReq) {
+        System.out.println("@@@>" + strReq);
+        JSONObject jsonConfiqReq;
+        JSONObject jsonResponse = new JSONObject();
         try {
-            confiqJ = new JSONObject(str);
-            Confiq confiq = JsonUtil.extractConfiq(confiqJ);
+            jsonConfiqReq = new JSONObject(strReq);
+            Confiq confiq = JsonUtil.extractConfiq(jsonConfiqReq);
             confiq.setUserName("newSeen");
-            ArrayList<Long> list = GeneralService.getInstance().getLastGeneralIds();
+            ArrayList<Long> list = GeneralServiceImpl.getInstance().getLastGeneralIds();
             confiq.setLastIds(list);
             confiq.setHaveNewChange(true);
             ArrayList<String> names = new ArrayList<>();
@@ -59,13 +59,15 @@ public class GetGeneralModel {
             ArrayList<TagVisiblity> tagV = new ArrayList<>();
             tagV.add(new TagVisiblity().fillMock());
             tagV.add(new TagVisiblity().fillMock().doStarVisible(true));
+            confiq.setLastModelMap(GeneralServiceImpl.getInstance().getModelMapAfter(confiq.getLastModelMapId()));
+            confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(confiq.getLastModelMapId()));
             confiq.setTagVisiblity(tagV);
             JSONObject c = JsonUtil.parseConfiq(confiq);
-            jsonObject.put("confiq", c);
+            jsonResponse.put("confiq", c);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return jsonObject;
+        return jsonResponse;
     }
 
     @POST
@@ -76,7 +78,7 @@ public class GetGeneralModel {
         System.out.println("str:" + tableIx + " and " + id + ",Object:" + str);
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();
-        ArrayList<GeneralModel> list = GeneralService.getInstance().getGeneralListAfter(tableIx, id);
+        ArrayList<GeneralModel> list = GeneralServiceImpl.getInstance().getGeneralListAfter(tableIx, id);
         for (GeneralModel gm : list) {
             array.put(Convert2Json.parseGM(gm));
         }

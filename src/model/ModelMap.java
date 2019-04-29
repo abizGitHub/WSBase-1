@@ -10,7 +10,7 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 
-public class ModelMap implements Serializable {
+public class ModelMap extends BaseModel implements Serializable {
 
 
     public static final String COLUMNIX = "columnIx";
@@ -18,11 +18,11 @@ public class ModelMap implements Serializable {
     public static final String STRINGVALUE = "stringValue";
     public static final String TABLEID = "tableId";
 
-    private int id;
     private int tableId;
     private int columnIx; // GeneralModel statics;
     private Integer intValue;
     private String stringValue;
+    private Long idDelete;
 
     public int getTableId() {
         return tableId;
@@ -56,11 +56,11 @@ public class ModelMap implements Serializable {
         this.stringValue = stringValue;
     }
 
-    public int getId() {
-        return id;
+    public Long getIdDelete() {
+        return idDelete;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdDelete(Long idDelete) {
+        this.idDelete = idDelete;
     }
 }

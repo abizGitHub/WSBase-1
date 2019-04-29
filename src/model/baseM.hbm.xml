@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="ModelMap" table="modelMap">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="native">
+                <param name="sequence">seq_modelMap</param>
+            </generator>
+        </id>
+        <property name="columnIx" type="java.lang.Integer">
+            <column name="columnIx" sql-type="NUMBER"/>
+        </property>
+        <property name="intValue" type="java.lang.Integer">
+            <column name="intValue" sql-type="NUMBER"/>
+        </property>
+        <property name="tableId" type="java.lang.Integer">
+            <column name="tableId" sql-type="NUMBER"/>
+        </property>
+        <property name="stringValue" type="java.lang.Long">
+            <column name="stringValue" sql-type="NVARCHAR2(500)"/>
+        </property>
+        <property name="idDelete" type="java.lang.Long">
+            <column name="idDelete" sql-type="NUMBER"/>
+        </property>
+    </class>
+</hibernate-mapping>

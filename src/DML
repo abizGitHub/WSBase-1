@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<table>
+    CREATE TABLE  "BUSINESST"
+    (	"ID" NUMBER(10,0) NOT NULL ENABLE,
+    "TITLE" NVARCHAR2(100),
+    PRIMARY KEY ("ID") ENABLE
+    )
+
+    -------------------------------------------
+
+    CREATE TABLE  "PROVINCE"
+    (	"ID" NUMBER NOT NULL ENABLE,
+    "NAME" NVARCHAR2(100) NOT NULL ENABLE,
+    "CODE" NUMBER,
+    CONSTRAINT "PK_PROVINCE" PRIMARY KEY ("ID") ENABLE,
+    CONSTRAINT "UK_PR_NAME" UNIQUE ("NAME") ENABLE
+    )
+
+    ----------------------------------------
+
+    CREATE TABLE  "CITY"
+    (	"ID" NUMBER NOT NULL ENABLE,
+    "NAME" NVARCHAR2(100) NOT NULL ENABLE,
+    "CODE" NUMBER,
+    "PROVINCE" NUMBER NOT NULL ENABLE,
+    CONSTRAINT "PK_CITY" PRIMARY KEY ("ID") ENABLE,
+    CONSTRAINT "UK_CITY_NAME" UNIQUE ("NAME") ENABLE,
+    CONSTRAINT "FK_CITY_PROVINCE" FOREIGN KEY ("PROVINCE")
+    REFERENCES  "PROVINCE" ("ID") ENABLE
+    )
+
+    ----------------------------------------
+
+    CREATE TABLE  "CLIENT"
+    (	"ID" NUMBER(10,0) NOT NULL ENABLE,
+    "NAME" NVARCHAR2(10),
+    "CITY" NUMBER,
+    PRIMARY KEY ("ID") ENABLE,
+    CONSTRAINT "FK_CLIENT_CITY" FOREIGN KEY ("CITY")
+    REFERENCES  "CITY" ("ID") ENABLE
+    )
+
+    ------------------------------------
+    CREATE TABLE  "AUCTION"
+    (	"BUTITLE" NUMBER(10,0) NOT NULL ENABLE,
+    "EDATE" NUMBER,
+    "DESCRIPTION" NVARCHAR2(1000),
+    "CLIENT" NUMBER(10,0),
+    "ID" NUMBER(10,0),
+    PRIMARY KEY ("ID") ENABLE,
+    CONSTRAINT "FK_AUCTN_CLIENT" FOREIGN KEY ("CLIENT")
+    REFERENCES  "CLIENT" ("ID") ENABLE,
+    CONSTRAINT "FK_AUCTN_BUSINESS" FOREIGN KEY ("BUTITLE")
+    REFERENCES  "BUSINESST" ("ID") ENABLE
+    )
+
+</table>
+
+<view>
+
+CREATE OR REPLACE FORCE VIEW  "AUCTIONVIEW" ("ID", "BUTITLE", "EDATE", "DESCRIPTION", "CLIENT", "CITY", "PROVINCE") AS
+select a.id , b.title as BUTITLE, a.edate , a.description, c.name , ct.name , p.name from auction a
+left join businessT b on (a.butitle = b.id)
+left join client c on (c.id = a.client)
+left join city ct on (ct.id = c.city)
+left join province p on (p.id = ct.province)
+
+--------------------------------------------------------
+
+CREATE OR REPLACE FORCE VIEW  "CITYVIEW" ("ID", "NAME", "CODE", "PROVINCE") AS
+select c.id , c.name ,c.code as code ,p.name as province from city c
+left join province p on (p.id = c.province)
+
+---------------------------------------------------------
+
+CREATE OR REPLACE FORCE VIEW  "CLIENTVIEW" ("ID", "NAME", "CITY", "PROVINCE") AS
+select c.id , c.name ,ct.name as city , p.name as province from client c
+left join city ct on (ct.id = c.city)
+left join province p on (p.id = ct.province)
+
+</view>
+
+<view>
+
+CREATE OR REPLACE FORCE VIEW  "AUCTIONVIEW" ("ID", "BUTITLE", "EDATE", "DESCRIPTION", "CLIENT", "CITY", "PROVINCE", "CITYID", "PROVINCEID") AS
+select a.id , b.title as BUTITLE, a.edate , a.description, c.name , ct.name , p.name , ct.id , p.id from auction a
+left join businessT b on (a.butitle = b.id)
+left join client c on (c.id = a.client)
+left join city ct on (ct.id = c.city)
+left join province p on (p.id = ct.province)
+
+</view>
+
+<table>
+CREATE table "MODELMAP" (
+"ID"          NUMBER NOT NULL,
+"COLUMNIX"    NUMBER,
+"INTVALUE"    NUMBER,
+"STRINGVALUE" NVARCHAR2(200),
+"TABLEID"     NUMBER,
+"IDDELETE"    NUMBER,
+constraint  "MODELMAP_PK" primary key ("ID") )
+</table>
+
+<sequence>
+create sequence "SEQ_MODELMAP"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+-----------------------
+create sequence "SEQ_AUCTION"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+------------------------
+
+create sequence "SEQ_CITY"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+------------------------
+
+create sequence "SEQ_PROVINCE"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+------------------------
+
+create sequence "SEQ_BUSINESST"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+------------------------
+
+create sequence "SEQ_CLIENT"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+------------------------
+
+</sequence>
+
+
+<delete>
+
+DELETE AUCTION;
+DELETE CLIENT;
+DELETE CITY;
+DELETE PROVINCE;
+DELETE BUSINESST;
+
+</delete>
+
+
+<table>
+
+alter table "MODELMAP" add
+("TBLENTITYNAME" VARCHAR2(100) NULL)
+
+-------------------------------------
+
+alter table "MODELMAP" add
+("TBLENTITYID" number NULL)
+
+
+</table>
+
+
+<trigger>
+CREATE OR REPLACE TRIGGER  "TR_PROVINCE_DLT_MDLMP"
+BEFORE DELETE ON PROVINCE
+FOR EACH ROW
+DECLARE
+DELETEID NUMBER(10);
+BEGIN
+SELECT ID INTO DELETEID
+FROM MODELMAP WHERE TBLENTITYNAME='PROVINCE' AND TBLENTITYID = :OLD.ID ;
+INSERT INTO MODELMAP(ID , IDDELETE)
+VALUES(SEQ_MODELMAP.NEXTVAL, DELETEID);
+
+DELETE MODELMAP WHERE ID = DELETEID;
+END;
+--------------------------------------------
+CREATE OR REPLACE TRIGGER  "TR_PROVINCE_INS_MDLMP"
+AFTER INSERT ON PROVINCE
+FOR EACH ROW
+BEGIN
+INSERT INTO MODELMAP(ID ,TBLENTITYNAME ,TBLENTITYID ,IDDELETE ,COLUMNIX ,STRINGVALUE ,INTVALUE)
+VALUES(SEQ_MODELMAP.NEXTVAL,'PROVINCE', :NEW.ID, NULL ,3 ,:NEW.NAME, :NEW.ID);
+END;
+-------------------------------------------
+CREATE OR REPLACE TRIGGER  "TR_PROVINCE_UPD_MDLMP"
+AFTER UPDATE ON PROVINCE
+FOR EACH ROW
+DECLARE
+UPDID NUMBER(10);
+BEGIN
+SELECT ID INTO UPDID
+FROM MODELMAP WHERE TBLENTITYNAME='PROVINCE' AND TBLENTITYID = :NEW.ID ;
+INSERT INTO MODELMAP(ID ,IDDELETE)
+VALUES(SEQ_MODELMAP.NEXTVAL, UPDID);
+
+INSERT INTO MODELMAP(ID ,TBLENTITYNAME ,TBLENTITYID ,IDDELETE ,COLUMNIX ,STRINGVALUE ,INTVALUE)
+VALUES(SEQ_MODELMAP.NEXTVAL,'PROVINCE', :NEW.ID, NULL ,3 , :NEW.NAME, :NEW.ID);
+
+DELETE MODELMAP WHERE ID = UPDID;
+END;
+-------------------------------------------
+CREATE OR REPLACE TRIGGER  "TR_CITY_DLT_MDLMP"
+BEFORE DELETE ON CITY
+FOR EACH ROW
+DECLARE
+DELETEID NUMBER(10);
+BEGIN
+SELECT ID INTO DELETEID
+FROM MODELMAP WHERE TBLENTITYNAME='CITY' AND TBLENTITYID = :OLD.ID ;
+INSERT INTO MODELMAP(ID , IDDELETE)
+VALUES(SEQ_MODELMAP.NEXTVAL, DELETEID);
+
+DELETE MODELMAP WHERE ID = DELETEID;
+END;
+-------------------------------------------
+CREATE OR REPLACE TRIGGER  "TR_CITY_INS_MDLMP"
+AFTER INSERT ON CITY
+FOR EACH ROW
+BEGIN
+INSERT INTO MODELMAP(ID ,TBLENTITYNAME ,TBLENTITYID ,IDDELETE ,COLUMNIX ,STRINGVALUE ,INTVALUE)
+VALUES(SEQ_MODELMAP.NEXTVAL,'CITY', :NEW.ID, NULL ,2 ,:NEW.NAME, :NEW.ID);
+END;
+-------------------------------------------
+CREATE OR REPLACE TRIGGER  "TR_CITY_UPD_MDLMP"
+AFTER UPDATE ON CITY
+FOR EACH ROW
+DECLARE
+UPDID NUMBER(10);
+BEGIN
+SELECT ID INTO UPDID
+FROM MODELMAP WHERE TBLENTITYNAME='CITY' AND TBLENTITYID = :NEW.ID ;
+INSERT INTO MODELMAP(ID ,IDDELETE)
+VALUES(SEQ_MODELMAP.NEXTVAL, UPDID);
+
+INSERT INTO MODELMAP(ID ,TBLENTITYNAME ,TBLENTITYID ,IDDELETE ,COLUMNIX ,STRINGVALUE ,INTVALUE)
+VALUES(SEQ_MODELMAP.NEXTVAL,'CITY', :NEW.ID, NULL ,2 , :NEW.NAME, :NEW.ID);
+
+DELETE MODELMAP WHERE ID = UPDID;
+END;
+-------------------------------------------
+
+</trigger>
+
+
+
+
+
+
