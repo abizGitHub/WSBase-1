@@ -3,6 +3,7 @@ package ws;
 
 import model.Confiq;
 import model.GeneralModel;
+import model.ModelMap;
 import model.TagVisiblity;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -53,8 +54,8 @@ public class GetGeneralModel {
             confiq.setLastIds(list);
             confiq.setHaveNewChange(true);
             ArrayList<String> names = new ArrayList<>();
-            names.add("qq1");
-            names.add("33ew");
+            names.add("ttqq1");
+            names.add("ujhyew");
             confiq.setLastTablesName(names);
             ArrayList<TagVisiblity> tagV = new ArrayList<>();
             tagV.add(new TagVisiblity().fillMock());
@@ -112,6 +113,20 @@ public class GetGeneralModel {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         return jsonObject;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<ModelMap> modelMapAfter = GeneralServiceImpl.getInstance().getModelMapAfter(0L);
+        System.out.println("ColumnIx  -  IntValue  -  StringValue  -  IdDelete");
+        for (ModelMap modelMap : modelMapAfter) {
+            System.out.println(modelMap);
+        }
+        System.err.println("==================================");
+        ArrayList<GeneralModel> generalListAfter = GeneralServiceImpl.getInstance().getGeneralListAfter(1, 0L);
+        for (GeneralModel generalModel : generalListAfter) {
+            System.out.println(generalModel);
+        }
+
     }
 
 

@@ -18,6 +18,8 @@ public class Confiq {
     public static String LASTMODELMAP = "lastModelMap";
     public static String LASTTABLESNAME = "lastTablesName";
     public static String TAGVISIBLITY = "tagVisiblity";
+    public static String MODELMAP2DELETE = "modelMap2delete";
+
 
     String userName;
     Long userId;

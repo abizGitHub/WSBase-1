@@ -2,6 +2,7 @@ package model;
 
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,7 +14,7 @@ import java.util.Random;
  * Time: 10:53 PM
  * To change this template use File | Settings | File Templates.
  */
-public class GeneralModel implements Serializable{
+public class GeneralModel implements Serializable {
 
     public static final String TITLE$ = "title";
     public static final String HEADERL$ = "headerL";
@@ -147,9 +148,9 @@ public class GeneralModel implements Serializable{
         setTitle("title-" + rnd);
         StringBuffer buffer = new StringBuffer("<body");
         for (int i = 0; i < 200; i++) {
-            buffer.append("  -"+i+"- body ");
+            buffer.append("  -" + i + "- body ");
         }
-        setBody(buffer.toString()+"/>" + rnd);
+        setBody(buffer.toString() + "/>" + rnd);
         setHeaderL("headerL-" + rnd);
         setHeaderR("headerR-" + rnd);
         setFooterL("footerL-" + rnd);
@@ -158,4 +159,8 @@ public class GeneralModel implements Serializable{
         //setStared(rnd > 50);
     }
 
+    @Override
+    public String toString() {
+        return title + "(" + headerL + "-" + headerR + ")" + body + "(" + footerL + "-" + footerR + ")";
+    }
 }

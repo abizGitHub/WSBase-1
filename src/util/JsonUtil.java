@@ -246,6 +246,10 @@ public class JsonUtil {
             json.put(Confiq.LASTIDS, new JSONArray(confiq.getLastIds()));
         } catch (JSONException e) {
         }
+        try {
+            json.put(Confiq.MODELMAP2DELETE, new JSONArray(confiq.getModelMap2Delete()));
+        } catch (JSONException e) {
+        }
         if (confiq.getLastModelMap() != null)
             try {
                 JSONArray array = new JSONArray();

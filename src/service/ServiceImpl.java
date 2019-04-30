@@ -98,7 +98,9 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
     @Override
     public Long getLastId() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        return (Long) session.createQuery("select max(id) from " + clazz.getName()).uniqueResult();
+        Long result = (Long) session.createQuery("select max(id) from " + clazz.getName()).uniqueResult();
+        session.close();
+        return result;
     }
 
     @Override

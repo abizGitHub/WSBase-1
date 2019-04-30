@@ -19,8 +19,8 @@
         <property name="tableId" type="java.lang.Integer">
             <column name="tableId" sql-type="NUMBER"/>
         </property>
-        <property name="stringValue" type="java.lang.Long">
-            <column name="stringValue" sql-type="NVARCHAR2(500)"/>
+        <property name="stringValue" type="java.lang.String">
+            <column name="stringValue" sql-type="NVARCHAR2(200)"/>
         </property>
         <property name="idDelete" type="java.lang.Long">
             <column name="idDelete" sql-type="NUMBER"/>

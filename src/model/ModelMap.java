@@ -18,25 +18,25 @@ public class ModelMap extends BaseModel implements Serializable {
     public static final String STRINGVALUE = "stringValue";
     public static final String TABLEID = "tableId";
 
-    private int tableId;
-    private int columnIx; // GeneralModel statics;
+    private Integer tableId;
+    private Integer columnIx; // GeneralModel statics;
     private Integer intValue;
     private String stringValue;
     private Long idDelete;
 
-    public int getTableId() {
+    public Integer getTableId() {
         return tableId;
     }
 
-    public void setTableId(int tableId) {
+    public void setTableId(Integer tableId) {
         this.tableId = tableId;
     }
 
-    public int getColumnIx() {
+    public Integer getColumnIx() {
         return columnIx;
     }
 
-    public void setColumnIx(int columnIx) {
+    public void setColumnIx(Integer columnIx) {
         this.columnIx = columnIx;
     }
 
@@ -62,5 +62,10 @@ public class ModelMap extends BaseModel implements Serializable {
 
     public void setIdDelete(Long idDelete) {
         this.idDelete = idDelete;
+    }
+
+    @Override
+    public String toString() {
+        return tableId + " - " + columnIx + "-" + intValue + "-" + stringValue;
     }
 }
