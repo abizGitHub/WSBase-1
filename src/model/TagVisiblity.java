@@ -16,6 +16,23 @@ public class TagVisiblity implements Serializable {
     private boolean footerRVisible;
     private boolean footerLVisible;
     private boolean starVisible;
+    private int tableId;
+    private boolean titleString;
+    private boolean headerRString;
+    private boolean headerLString;
+    private boolean bodyString;
+    private boolean footerRString;
+    private boolean footerLString;
+
+    public TagVisiblity(int ix) {
+        titleString = true;
+        headerRString = true;
+        headerLString = true;
+        bodyString = true;
+        footerRString = true;
+        footerLString = true;
+        tableId = ix;
+    }
 
     public TagVisiblity doTitleVisible(boolean titleVisible) {
         this.titleVisible = titleVisible;
@@ -108,6 +125,14 @@ public class TagVisiblity implements Serializable {
         this.starVisible = starVisible;
     }
 
+    public int getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
+    }
+
     public TagVisiblity fillMock() {
         this.setTitleVisible(new Random().nextBoolean());
         this.setStarVisible(new Random().nextBoolean());
@@ -118,4 +143,66 @@ public class TagVisiblity implements Serializable {
         this.setFooterLVisible(new Random().nextBoolean());
         return this;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("tableId :  " + tableId + "\n");
+        buffer.append("Title :  " + isTitleVisible() + " ,isString" + isTitleString() + "\n");
+        buffer.append("Body :  " + isBodyVisible() + " ,isString" + isBodyString() + "\n");
+        buffer.append("HeaderR :  " + isHeaderRVisible() + " ,isString" + isHeaderRString() + "\n");
+        buffer.append("HeaderL :  " + isHeaderLVisible() + " ,isString" + isHeaderLString() + "\n");
+        buffer.append("FooterR :  " + isFooterRVisible() + " ,isString" + isFooterRString() + "\n");
+        buffer.append("FooterL :  " + isFooterLVisible() + " ,isString" + isFooterLString() + "\n");
+        return buffer.toString();
+    }
+
+    public boolean isTitleString() {
+        return titleString;
+    }
+
+    public void setTitleString(boolean titleString) {
+        this.titleString = titleString;
+    }
+
+    public boolean isHeaderRString() {
+        return headerRString;
+    }
+
+    public void setHeaderRString(boolean headerRString) {
+        this.headerRString = headerRString;
+    }
+
+    public boolean isHeaderLString() {
+        return headerLString;
+    }
+
+    public void setHeaderLString(boolean headerLString) {
+        this.headerLString = headerLString;
+    }
+
+    public boolean isBodyString() {
+        return bodyString;
+    }
+
+    public void setBodyString(boolean bodyString) {
+        this.bodyString = bodyString;
+    }
+
+    public boolean isFooterRString() {
+        return footerRString;
+    }
+
+    public void setFooterRString(boolean footerRString) {
+        this.footerRString = footerRString;
+    }
+
+    public boolean isFooterLString() {
+        return footerLString;
+    }
+
+    public void setFooterLString(boolean footerLString) {
+        this.footerLString = footerLString;
+    }
+
 }

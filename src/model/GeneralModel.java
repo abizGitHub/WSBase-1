@@ -16,13 +16,13 @@ import java.util.Random;
  */
 public class GeneralModel implements Serializable {
 
-    public static final String TITLE$ = "title";
-    public static final String HEADERL$ = "headerL";
-    public static final String HEADERR$ = "headerR";
-    public static final String BODY$ = "body";
-    public static final String FOOTERL$ = "footerL";
-    public static final String FOOTERR$ = "footerR";
-    public static final String STAR$ = "star";
+    public static final String TITLE$ = "TITLE";
+    public static final String HEADERL$ = "HEADER_L";
+    public static final String HEADERR$ = "HEADER_R";
+    public static final String BODY$ = "BODY";
+    public static final String FOOTERL$ = "FOOTER_L";
+    public static final String FOOTERR$ = "FOOTER_R";
+    public static final String STAR$ = "STARED";
 
     String title;
     String body;
@@ -45,13 +45,13 @@ public class GeneralModel implements Serializable {
     }
 
     public GeneralModel(JSONObject json) throws JSONException {
-        this.setId(Long.valueOf(json.get("id").toString()));
-        this.setTitle(json.get("title").toString());
-        this.setHeaderL(json.get("headerL").toString());
-        this.setHeaderR(json.get("headerR").toString());
-        this.setBody(json.get("body").toString());
-        this.setFooterL(json.get("footerL").toString());
-        this.setFooterR(json.get("footerR").toString());
+        this.setId(Long.valueOf(json.get("ID").toString()));
+        this.setTitle(json.get(TITLE$).toString());
+        this.setHeaderL(json.get(HEADERL$).toString());
+        this.setHeaderR(json.get(HEADERR$).toString());
+        this.setBody(json.get(BODY$).toString());
+        this.setFooterL(json.get(FOOTERL$).toString());
+        this.setFooterR(json.get(FOOTERR$).toString());
     }
 
     public String getTitle() {

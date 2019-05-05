@@ -39,9 +39,19 @@
         <listener-class>listener.HttpSessListener</listener-class>
     </listener>
 
-    <!--<listener>
+    <listener>
         <listener-class>listener.ServCntxListener</listener-class>
     </listener>
+    <servlet>
+        <servlet-name>startUpServlet</servlet-name>
+        <servlet-class>servlets.StartUpServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>startUpServlet</servlet-name>
+        <url-pattern>/startUp</url-pattern>
+    </servlet-mapping>
+    <!--
     <listener>
         <listener-class>listener.ServCntxAttrListener</listener-class>
     </listener>

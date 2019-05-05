@@ -1,10 +1,10 @@
 package ws;
 
 
+import cash.Cash;
 import model.Confiq;
 import model.GeneralModel;
 import model.ModelMap;
-import model.TagVisiblity;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -15,6 +15,7 @@ import util.JsonUtil;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Path("/gm")
 public class GetGeneralModel {
@@ -44,25 +45,14 @@ public class GetGeneralModel {
     @Produces(MediaType.APPLICATION_JSON)
     public JSONObject getConfiq(String strReq) {
         System.out.println("@@@>" + strReq);
-        JSONObject jsonConfiqReq;
         JSONObject jsonResponse = new JSONObject();
         try {
-            jsonConfiqReq = new JSONObject(strReq);
-            Confiq confiq = JsonUtil.extractConfiq(jsonConfiqReq);
-            confiq.setUserName("newSeen");
+            Confiq confiq = Cash.o().getConfiq();
+            Confiq reqCnf = JsonUtil.extractConfiq(new JSONObject(strReq));
             ArrayList<Long> list = GeneralServiceImpl.getInstance().getLastGeneralIds();
             confiq.setLastIds(list);
-            confiq.setHaveNewChange(true);
-            ArrayList<String> names = new ArrayList<>();
-            names.add("ttqq1");
-            names.add("ujhyew");
-            confiq.setLastTablesName(names);
-            ArrayList<TagVisiblity> tagV = new ArrayList<>();
-            tagV.add(new TagVisiblity().fillMock());
-            tagV.add(new TagVisiblity().fillMock().doStarVisible(true));
-            confiq.setLastModelMap(GeneralServiceImpl.getInstance().getModelMapAfter(confiq.getLastModelMapId()));
-            confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(confiq.getLastModelMapId()));
-            confiq.setTagVisiblity(tagV);
+            confiq.setLastModelMap(GeneralServiceImpl.getInstance().getModelMapAfter(reqCnf.getLastModelMapId()));
+            confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(reqCnf.getLastModelMapId()));
             JSONObject c = JsonUtil.parseConfiq(confiq);
             jsonResponse.put("confiq", c);
         } catch (JSONException e) {

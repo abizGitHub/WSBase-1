@@ -17,13 +17,13 @@ public class Convert2Json {
     public static JSONObject parseGM(GeneralModel gm){
         JSONObject json = new JSONObject();
         try {
-            json.put("id", gm.getId());
-            json.put("body", gm.getBody());
-            json.put("title", gm.getTitle());
-            json.put("headerL", gm.getHeaderL());
-            json.put("headerR", gm.getHeaderR());
-            json.put("footerL", gm.getFooterL());
-            json.put("footerR", gm.getFooterR());
+            json.put("ID", gm.getId());
+            json.put(GeneralModel.BODY$, gm.getBody());
+            json.put(GeneralModel.TITLE$, gm.getTitle());
+            json.put(GeneralModel.HEADERL$, gm.getHeaderL());
+            json.put(GeneralModel.HEADERR$, gm.getHeaderR());
+            json.put(GeneralModel.FOOTERL$, gm.getFooterL());
+            json.put(GeneralModel.FOOTERR$, gm.getFooterR());
             //json.put("stared", gm.getStared());
         } catch (JSONException e) {
             e.printStackTrace();
