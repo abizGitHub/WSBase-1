@@ -53,6 +53,7 @@ public class GetGeneralModel {
             confiq.setLastIds(list);
             confiq.setLastModelMap(GeneralServiceImpl.getInstance().getModelMapAfter(reqCnf.getLastModelMapId()));
             confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(reqCnf.getLastModelMapId()));
+            //confiq.setUpdateGroup(true);
             JSONObject c = JsonUtil.parseConfiq(confiq);
             jsonResponse.put("confiq", c);
         } catch (JSONException e) {

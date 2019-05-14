@@ -13,12 +13,15 @@ public class Confiq {
     public static final String LASTMODELMAPID = "lastModelMapId";
     public static final String CLEARDB = "clearDB";
     public static final String HAVENEWCHANGE = "haveNewChange";
+    public static final String UPDATEGROUP = "updateGroup";
     public static String HASUSERPERMISSION = "hasUserPermission";
     public static String LASTIDS = "lastIds";
     public static String LASTMODELMAP = "lastModelMap";
     public static String LASTTABLESNAME = "lastTablesName";
     public static String TAGVISIBLITY = "tagVisiblity";
     public static String MODELMAP2DELETE = "modelMap2delete";
+    Long lastGroupId;
+    Boolean updateGroup;
 
 
     String userName;
@@ -121,5 +124,21 @@ public class Confiq {
 
     public void setModelMap2Delete(ArrayList<Long> modelMap2Delete) {
         this.modelMap2Delete = modelMap2Delete;
+    }
+
+    public Boolean getUpdateGroup() {
+        return updateGroup;
+    }
+
+    public void setUpdateGroup(Boolean updateGroup) {
+        this.updateGroup = updateGroup;
+    }
+
+    public Long getLastGroupId() {
+        return lastGroupId;
+    }
+
+    public void setLastGroupId(Long lastGroupId) {
+        this.lastGroupId = lastGroupId;
     }
 }

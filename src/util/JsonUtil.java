@@ -1,9 +1,6 @@
 package util;
 
-import model.Confiq;
-import model.GeneralModel;
-import model.ModelMap;
-import model.TagVisiblity;
+import model.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -306,6 +303,10 @@ public class JsonUtil {
         } catch (JSONException e) {
         }
         try {
+            json.put(Confiq.UPDATEGROUP, confiq.getUpdateGroup());
+        } catch (JSONException e) {
+        }
+        try {
             json.put(Confiq.LASTIDS, new JSONArray(confiq.getLastIds()));
         } catch (JSONException e) {
         }
@@ -349,4 +350,86 @@ public class JsonUtil {
             }
         return json;
     }
-}   
+
+
+    public static UserAccount extractUserAccount(JSONObject reqJson) {
+        UserAccount user = new UserAccount();
+        try {
+            user.setUserName(reqJson.get(Consts.USERNAME).toString());
+        } catch (JSONException e) {
+        }
+        try {
+            user.setPassword(reqJson.get(Consts.PASSWORD).toString());
+        } catch (JSONException e) {
+        }
+        try {
+            user.setEmail(reqJson.get(Consts.EMAIL).toString());
+        } catch (JSONException e) {
+        }
+        try {
+            user.setPhone(reqJson.get(Consts.PHONE).toString());
+        } catch (JSONException e) {
+        }
+        return user;
+    }
+
+    public static JSONObject parseUserAccount(UserAccount userAccount) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(Consts.USERNAME, userAccount.getUserName());
+            json.put(Consts.PASSWORD, userAccount.getPassword());
+            json.put(Consts.PHONE, userAccount.getPhone());
+            json.put(Consts.EMAIL, userAccount.getEmail());
+        } catch (JSONException e) {
+        }
+        return json;
+    }
+
+
+    public static ArrayList<Integer> extractGroupIds(JSONObject json, String status) throws JSONException {
+        ArrayList<Integer> list = new ArrayList<>();
+        JSONArray array = json.getJSONArray(status);
+        for (int i = 0; i < array.length(); i++) {
+            list.add(array.getInt(i));
+        }
+        return list;
+    }
+
+    public static ArrayList<Group> extractGroups(JSONArray array) throws JSONException {
+        ArrayList<Group> groups = new ArrayList<>();
+        for (int i = 0; i < array.length(); i++) {
+            groups.add(extractGr((JSONObject) array.get(i)));
+        }
+        return groups;
+    }
+
+
+    private static Group extractGr(JSONObject json) {
+        Group group = new Group();
+        try {
+            group.setId(Integer.valueOf(json.get(Consts.ID).toString()));
+        } catch (JSONException e) {
+        }
+        try {
+            group.setName(json.get(Consts.NAME).toString());
+        } catch (JSONException e) {
+        }
+        try {
+            group.setStatus((Integer.valueOf(json.get(Consts.STATUS).toString())));
+        } catch (JSONException e) {
+        }
+        return group;
+    }
+
+    public static JSONObject parseGr(Group gr) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(Consts.ID, gr.getId());
+            json.put(Consts.NAME, gr.getName());
+            json.put(Consts.STATUS, gr.getStatus());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+}
