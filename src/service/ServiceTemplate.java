@@ -20,7 +20,7 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
 
     public ArrayList<M> findByHQuery(String hql);
 
-    public ArrayList<M> findByFilter(HashMap map);
+    public ArrayList<M> findByFilter(HashMap<String,Object> map);
 
     public void deleteAll();
 

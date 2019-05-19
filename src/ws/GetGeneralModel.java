@@ -15,7 +15,6 @@ import util.JsonUtil;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @Path("/gm")
 public class GetGeneralModel {
@@ -53,7 +52,13 @@ public class GetGeneralModel {
             confiq.setLastIds(list);
             confiq.setLastModelMap(GeneralServiceImpl.getInstance().getModelMapAfter(reqCnf.getLastModelMapId()));
             confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(reqCnf.getLastModelMapId()));
-            //confiq.setUpdateGroup(true);
+            ArrayList<Integer> gIds = new ArrayList<>();
+            gIds.add(1);
+            gIds.add(1);
+            confiq.setLastGroupIds(gIds);
+            confiq.setUpdateGroup(true);
+            confiq.setConnectPeriod(2444);// ms
+            confiq.setSendDetail(false);
             JSONObject c = JsonUtil.parseConfiq(confiq);
             jsonResponse.put("confiq", c);
         } catch (JSONException e) {

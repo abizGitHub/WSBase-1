@@ -9,10 +9,7 @@ import org.codehaus.jettison.json.JSONObject;
 import util.Consts;
 import util.JsonUtil;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,14 +21,14 @@ public class UserAccountController {
 
     static {
         groupsHash = new HashMap<>();
-        groupsHash.put(69, new Group().fillMock(69));
-        groupsHash.put(50, new Group().fillMock(50));
-        groupsHash.put(47, new Group().fillMock(47));
-        groupsHash.put(33, new Group().fillMock(33));
-        groupsHash.put(17, new Group().fillMock(17));
-        groupsHash.put(8, new Group().fillMock(8));
-        groupsHash.put(3, new Group().fillMock(3));
-        groupsHash.put(4, new Group().fillMock(4));
+        groupsHash.put(69, new Group(2).fillMock(69));
+        groupsHash.put(50, new Group(1).fillMock(50));
+        groupsHash.put(47, new Group(1).fillMock(47));
+        groupsHash.put(33, new Group(2).fillMock(33));
+        groupsHash.put(17, new Group(2).fillMock(17));
+        groupsHash.put(8, new Group(2).fillMock(8));
+        groupsHash.put(3, new Group(2).fillMock(3));
+        groupsHash.put(4, new Group(1).fillMock(4));
     }
 
 
@@ -90,11 +87,12 @@ public class UserAccountController {
     }
 
     @POST
-    @Path("/groups")
+    @Path("/groups/{ix}")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public JSONObject getGroups(String strReq) {
+    public JSONObject getGroups(String strReq, @PathParam("ix") Integer tableIx) {
         JSONObject jsonObject = new JSONObject();
+        System.out.println("ix:" + tableIx + " groups>" + strReq);
         try {
             JSONObject reqJson = new JSONObject(strReq);
             ArrayList<Integer> reqRegisterGroup = JsonUtil.extractGroupIds(reqJson, Group.REGISTERED$);

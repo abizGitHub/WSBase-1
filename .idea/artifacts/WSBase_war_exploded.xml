@@ -8,8 +8,8 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="JEE" />
-          <element id="library" level="project" name="lib" />
           <element id="library" level="project" name="jettison-1.1" />
+          <element id="library" level="project" name="jstl-1.2" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="WSBase/web/Web" />

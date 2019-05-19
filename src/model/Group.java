@@ -16,6 +16,11 @@ public class Group implements Serializable {
     public static int ORDERED = 1;
     public static int REGISTERED = 2;
     private int status = UNREGISTERED;
+    private int tableId;
+
+    public Group(int tableId) {
+        this.tableId = tableId;
+    }
 
     public int getId() {
         return id;
@@ -47,5 +52,13 @@ public class Group implements Serializable {
         this.name += " \n line two ";
         this.name += " \n line 3 three for group sample ";
         return this;
+    }
+
+    public int getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
     }
 }

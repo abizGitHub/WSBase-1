@@ -273,7 +273,46 @@ END;
 
 </trigger>
 
+<table>
+create table UserAccount (id number,email NVARCHAR2(30),password NVARCHAR2(10),phone NVARCHAR2(20),username NVARCHAR2(20));
 
+CREATE TABLE  "USERACCOUNTLOG"
+(	"ID" NUMBER,
+"USERACCOUNTID" NUMBER(20,0),
+"HASPERMISSION" NUMBER(1,0),
+"LASTCONNECTTIME" DATE );
+
+
+create table TagVisiblity(
+ID number,TABLEID NUMBER(1),
+TITLESTRING NUMBER(1),TITLEVISIBLE NUMBER(1),
+BODYSTRING NUMBER(1),BODYVISIBLE NUMBER(1),
+HEADERRSTRING NUMBER(1),HEADERRVISIBLE NUMBER(1),
+HEADERLSTRING NUMBER(1),HEADERLVISIBLE NUMBER(1),
+FOOTERRSTRING NUMBER(1),FOOTERRVISIBLE NUMBER(1),
+FOOTERLSTRING NUMBER(1),FOOTERLVISIBLE NUMBER(1) ) ;
+
+</table>
+
+<sequence>
+create sequence "SEQ_USERACCOUNT"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+create sequence "SEQ_USERACCOUNTLOG"
+start with 1
+increment by 1
+minvalue 1
+nocache
+nocycle
+noorder
+
+
+</sequence>
 
 
 

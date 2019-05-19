@@ -1,6 +1,7 @@
 package util;
 
 import model.*;
+import oracle.jdbc.driver.Const;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -83,11 +84,23 @@ public class JsonUtil {
         } catch (Exception e) {
         }
         try {
+            confiq.setWait4Server(json.getInt(Confiq.WAIT4SERVER));
+        } catch (Exception e) {
+        }
+        try {
+            confiq.setConnectPeriod(json.getInt(Confiq.CONNECTPERIOD));
+        } catch (Exception e) {
+        }
+        try {
             confiq.setUserName(json.getString(Confiq.USERNAME));
         } catch (Exception e) {
         }
         try {
             confiq.setHaveNewChange(json.getBoolean(Confiq.HAVENEWCHANGE));
+        } catch (Exception e) {
+        }
+        try {
+            confiq.setSendDetail(json.getBoolean(Consts.SENDDETAICONFIG));
         } catch (Exception e) {
         }
         try {
@@ -128,6 +141,15 @@ public class JsonUtil {
                 list.add(jsonArray.getLong(i));
             }
             confiq.setLastIds(list);
+        } catch (Exception e) {
+        }
+        try {
+            JSONArray jsonArray = json.getJSONArray(Confiq.LASTGROUPIDS);
+            ArrayList<Integer> list = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                list.add(jsonArray.getInt(i));
+            }
+            confiq.setLastGroupIds(list);
         } catch (Exception e) {
         }
         return confiq;
@@ -303,11 +325,19 @@ public class JsonUtil {
         } catch (JSONException e) {
         }
         try {
+            json.put(Consts.SENDDETAICONFIG, confiq.getSendDetail());
+        } catch (JSONException e) {
+        }
+        try {
             json.put(Confiq.UPDATEGROUP, confiq.getUpdateGroup());
         } catch (JSONException e) {
         }
         try {
             json.put(Confiq.LASTIDS, new JSONArray(confiq.getLastIds()));
+        } catch (JSONException e) {
+        }
+        try {
+            json.put(Confiq.LASTGROUPIDS, new JSONArray(confiq.getLastGroupIds()));
         } catch (JSONException e) {
         }
         try {
@@ -332,6 +362,14 @@ public class JsonUtil {
         } catch (JSONException e) {
         }
         try {
+            json.put(Confiq.WAIT4SERVER, confiq.getWait4Server());
+        } catch (JSONException e) {
+        }
+        try {
+            json.put(Confiq.CONNECTPERIOD, confiq.getConnectPeriod());
+        } catch (JSONException e) {
+        }
+        try {
             json.put(Confiq.USERNAME, confiq.getUserName());
         } catch (JSONException e) {
         }
@@ -339,7 +377,7 @@ public class JsonUtil {
             json.put(Confiq.LASTMODELMAPID, confiq.getLastModelMapId());
         } catch (JSONException e) {
         }
-        if (confiq.getTagVisiblity() != null)
+        if (confiq.getTagVisiblity() != null && confiq.getTagVisiblity().size() > 0)
             try {
                 JSONArray array = new JSONArray();
                 for (TagVisiblity tv : confiq.getTagVisiblity()) {
@@ -405,8 +443,9 @@ public class JsonUtil {
 
 
     private static Group extractGr(JSONObject json) {
-        Group group = new Group();
+        Group group = null;
         try {
+            group = new Group(Integer.valueOf(json.get(Consts.TABLEID).toString()));
             group.setId(Integer.valueOf(json.get(Consts.ID).toString()));
         } catch (JSONException e) {
         }
@@ -427,6 +466,7 @@ public class JsonUtil {
             json.put(Consts.ID, gr.getId());
             json.put(Consts.NAME, gr.getName());
             json.put(Consts.STATUS, gr.getStatus());
+            json.put(Consts.TABLEID, gr.getTableId());
         } catch (JSONException e) {
             e.printStackTrace();
         }

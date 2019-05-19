@@ -1,7 +1,6 @@
 package service;
 
-import model.BaseModel;
-import model.ModelMap;
+import model.*;
 import moz.model.*;
 
 import java.util.HashMap;
@@ -24,12 +23,20 @@ public class ServiceFactory {
         ServiceImpl<BusinessT, BusinessT> businessTService = new ServiceImpl<BusinessT, BusinessT>(BusinessT.class, BusinessT.class);
         ServiceImpl<Client, ClientView> clientService = new ServiceImpl<Client, ClientView>(Client.class, ClientView.class);
         ServiceImpl<ModelMap, ModelMap> modelMapService = new ServiceImpl<ModelMap, ModelMap>(ModelMap.class, ModelMap.class);
+        ServiceImpl<UserAccount, UserAccount> userAccountService = new ServiceImpl<UserAccount, UserAccount>(UserAccount.class, UserAccount.class);
+        ServiceImpl<UserAccountLog, UserAccountLog> userAccountLogService
+                = new ServiceImpl<UserAccountLog, UserAccountLog>(UserAccountLog.class, UserAccountLog.class);
+        ServiceImpl<TagVisiblity, TagVisiblity> tagVisService = new ServiceImpl<>(TagVisiblity.class, TagVisiblity.class);
+
         services.put(Auction.class, auctionService);
         services.put(City.class, cityService);
         services.put(Province.class, provinceService);
         services.put(BusinessT.class, businessTService);
         services.put(Client.class, clientService);
         services.put(ModelMap.class, modelMapService);
+        services.put(UserAccount.class, userAccountService);
+        services.put(UserAccountLog.class, userAccountLogService);
+        services.put(TagVisiblity.class, tagVisService);
     }
 
     public HashMap<Class<? extends BaseModel>, ServiceImpl> o() {

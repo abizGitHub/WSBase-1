@@ -14,13 +14,18 @@ public class Confiq {
     public static final String CLEARDB = "clearDB";
     public static final String HAVENEWCHANGE = "haveNewChange";
     public static final String UPDATEGROUP = "updateGroup";
+    public static final String LASTGROUPIDS = "lastGroupIds";
     public static String HASUSERPERMISSION = "hasUserPermission";
     public static String LASTIDS = "lastIds";
     public static String LASTMODELMAP = "lastModelMap";
     public static String LASTTABLESNAME = "lastTablesName";
     public static String TAGVISIBLITY = "tagVisiblity";
     public static String MODELMAP2DELETE = "modelMap2delete";
-    Long lastGroupId;
+
+    public static final String WAIT4SERVER = "wait4Server";
+    public static final String CONNECTPERIOD = "connectPeriod";
+
+    ArrayList<Integer> lastGroupIds;
     Boolean updateGroup;
 
 
@@ -37,6 +42,9 @@ public class Confiq {
     Long lastModelMapId;
     Boolean haveNewChange;// if (tagVisiblity or lastModelMap)
     // send by server differ from local
+    Boolean sendDetail;
+    Integer wait4Server;
+    Integer connectPeriod;
 
     public String getUserName() {
         return userName;
@@ -134,11 +142,35 @@ public class Confiq {
         this.updateGroup = updateGroup;
     }
 
-    public Long getLastGroupId() {
-        return lastGroupId;
+    public ArrayList<Integer> getLastGroupIds() {
+        return lastGroupIds;
     }
 
-    public void setLastGroupId(Long lastGroupId) {
-        this.lastGroupId = lastGroupId;
+    public void setLastGroupIds(ArrayList<Integer> lastGroupIds) {
+        this.lastGroupIds = lastGroupIds;
+    }
+
+    public Boolean getSendDetail() {
+        return sendDetail;
+    }
+
+    public void setSendDetail(Boolean sendDetail) {
+        this.sendDetail = sendDetail;
+    }
+
+    public Integer getWait4Server() {
+        return wait4Server;
+    }
+
+    public void setWait4Server(Integer wait4Server) {
+        this.wait4Server = wait4Server;
+    }
+
+    public Integer getConnectPeriod() {
+        return connectPeriod;
+    }
+
+    public void setConnectPeriod(Integer connectPeriod) {
+        this.connectPeriod = connectPeriod;
     }
 }

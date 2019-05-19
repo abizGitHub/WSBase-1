@@ -41,7 +41,7 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
     public ArrayList<T> loadAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<T> list = (ArrayList<T>)
-                session.createQuery("from " + clazz.getName() + " p order by id desc")
+                session.createQuery("from " + clazz.getName() + " p order by p.id desc")
                         .list();
         session.close();
         return list;
@@ -60,14 +60,34 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
         return null;
     }
 
+
     @Override
     public ArrayList<T> findByHQuery(String hql) {
         return null;
     }
 
     @Override
-    public ArrayList<T> findByFilter(HashMap map) {
-        return null;
+    public ArrayList<T> findByFilter(HashMap<String, Object> map) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        StringBuffer sql = new StringBuffer("from " + clazz.getName() + " p");
+        if (map.size() > 0) {
+            sql.append(" where 1=1 ");
+            for (String key : map.keySet()) {
+                Object param = map.get(key);
+                if (param instanceof String) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append("'").append(param).append("'");
+                } else if (param instanceof Number) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append(param);
+                }
+            }
+        }
+        ArrayList<T> list = (ArrayList<T>)
+                session.createQuery(sql.toString() + " order by p.id desc")
+                        .list();
+        session.close();
+        return list;
     }
 
     @Override
@@ -79,7 +99,7 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
     public ArrayList<V> loadAllView() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<V> list = (ArrayList<V>)
-                session.createQuery("from " + clavv.getName() + " p order by id desc")
+                session.createQuery("from " + clavv.getName() + " p order by p.id desc")
                         .list();
         session.close();
         return list;
@@ -98,7 +118,7 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
     @Override
     public Long getLastId() {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Long result = (Long) session.createQuery("select max(id) from " + clazz.getName()).uniqueResult();
+        Long result = (Long) session.createQuery("select max(p.id) from " + clazz.getName() + " p").uniqueResult();
         session.close();
         return result;
     }

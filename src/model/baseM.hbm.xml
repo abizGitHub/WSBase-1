@@ -26,4 +26,97 @@
             <column name="idDelete" sql-type="NUMBER"/>
         </property>
     </class>
+
+    <class name="UserAccount" table="UserAccount">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="native">
+                <param name="sequence">seq_UserAccount</param>
+            </generator>
+        </id>
+        <property name="email" type="java.lang.String">
+            <column name="email" sql-type="NVARCHAR2(30)"/>
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="password" sql-type="NVARCHAR2(20)"/>
+        </property>
+        <property name="phone" type="java.lang.String">
+            <column name="phone" sql-type="NVARCHAR2(20)"/>
+        </property>
+        <property name="userName" type="java.lang.String">
+            <column name="userName" sql-type="NVARCHAR2(10)"/>
+        </property>
+    </class>
+
+    <class name="UserAccountLog" table="UserAccountLog">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="native">
+                <param name="sequence">seq_UserAccountLog</param>
+            </generator>
+        </id>
+        <property name="userAccountId" type="java.lang.Long">
+            <column name="userAccountId" sql-type="NUMBER"/>
+        </property>
+        <property name="hasPermission" type="java.lang.Boolean">
+            <column name="hasPermission" sql-type="NUMBER"/>
+        </property>
+        <property name="lastConnectTime" type="java.sql.Time">
+            <column name="lastConnectTime" sql-type="DATE"/>
+        </property>
+    </class>
+
+    <class name="TagVisiblity" table="TagVisiblity">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="tableId" type="java.lang.Integer">
+            <column name="tableId" sql-type="NUMBER"/>
+        </property>
+
+        <property name="bodyString" type="java.lang.Boolean">
+            <column name="bodyString" sql-type="NUMBER"/>
+        </property>
+        <property name="bodyVisible" type="java.lang.Boolean">
+            <column name="bodyVisible" sql-type="NUMBER"/>
+        </property>
+
+        <property name="titleString" type="java.lang.Boolean">
+            <column name="titleString" sql-type="NUMBER"/>
+        </property>
+        <property name="titleVisible" type="java.lang.Boolean">
+            <column name="titleVisible" sql-type="NUMBER"/>
+        </property>
+
+        <property name="headerLString" type="java.lang.Boolean">
+            <column name="headerLString" sql-type="NUMBER"/>
+        </property>
+        <property name="headerLVisible" type="java.lang.Boolean">
+            <column name="headerLVisible" sql-type="NUMBER"/>
+        </property>
+
+        <property name="headerRString" type="java.lang.Boolean">
+            <column name="headerRString" sql-type="NUMBER"/>
+        </property>
+        <property name="headerRVisible" type="java.lang.Boolean">
+            <column name="headerRVisible" sql-type="NUMBER"/>
+        </property>
+
+        <property name="FooterLString" type="java.lang.Boolean">
+            <column name="FooterLString" sql-type="NUMBER"/>
+        </property>
+        <property name="FooterLVisible" type="java.lang.Boolean">
+            <column name="FooterLVisible" sql-type="NUMBER"/>
+        </property>
+
+        <property name="FooterRString" type="java.lang.Boolean">
+            <column name="FooterRString" sql-type="NUMBER"/>
+        </property>
+        <property name="FooterRVisible" type="java.lang.Boolean">
+            <column name="FooterRVisible" sql-type="NUMBER"/>
+        </property>
+
+    </class>
+
 </hibernate-mapping>

@@ -4,7 +4,7 @@ package model;
  * Created by abiz on 5/12/2019.
  */
 
-public class UserAccount {
+public class UserAccount extends BaseModel{
 
     private String userName ;
     private String password ;
@@ -42,4 +42,5 @@ public class UserAccount {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

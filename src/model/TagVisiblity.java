@@ -1,13 +1,12 @@
 package model;
 
-import java.io.Serializable;
 import java.util.Random;
 
 /**
  * Created by abiz on 4/14/2019.
  */
 
-public class TagVisiblity implements Serializable {
+public class TagVisiblity extends BaseModel {
 
     private boolean titleVisible;
     private boolean headerRVisible;
@@ -205,4 +204,6 @@ public class TagVisiblity implements Serializable {
         this.footerLString = footerLString;
     }
 
+    public TagVisiblity() {
+    }
 }

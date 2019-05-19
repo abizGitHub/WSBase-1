@@ -10,7 +10,7 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 
-public class ModelMap extends BaseModel implements Serializable {
+public class ModelMap extends BaseModel{
 
 
     public static final String COLUMNIX = "columnIx";

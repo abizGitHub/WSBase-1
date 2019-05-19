@@ -25,6 +25,7 @@ public class Cash {
         names.add("one");
         names.add("two");
         confiq.setLastTablesName(names);
+        confiq.setHaveNewChange(true);
         ArrayList<TagVisiblity> tagV = new ArrayList<>();
         tagV.add(new TagVisiblity(1).fillMock().doStarVisible(true));
         tagV.add(new TagVisiblity(2).fillMock().doStarVisible(true));

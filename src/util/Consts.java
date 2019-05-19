@@ -33,6 +33,7 @@ public class Consts {
     public static final String PHONE = "PHONE";
     public static final String EMAIL = "EMAIL";
     public static final String USERACCOUNTEDITED = "USERACCOUNTEDITED";
+    public static final String TABLEID = "TABLE_ID";
     public static int USERREGISTERED = 34209;
     public static int USERNAMERESERVED = 78615;
     public static int CANTREGISTERE = 10209;
@@ -44,5 +45,10 @@ public class Consts {
     public static final String ADDRESSUPDATEUSER = "/userAccount/updateUser";
     public static final String ADDRESSGROUP = "/gm/groups";
 
+    public static final String SENDDETAICONFIG = "sendDetailConfiq";
 
+    public static final String USERACCOUNTID = "userAccountId";
+    public static final String METHOD = "actionMethod";
+    public static final String LOAD = "load";     
+    
 }
