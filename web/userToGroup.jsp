@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page import="util.Consts" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -16,7 +16,7 @@
 </head>
 <body>
 <center>
-    <h1>UserAccountLog</h1>
+    <h1>UserToGroup</h1>
 </center>
 <c:set var="ualog" value="${requestScope.list}"/>
 <br/>
@@ -24,23 +24,25 @@
 <br/>
 <table border="1" style="text-align: center">
     <tr>
-        <td> x </td>
-        <td> userAccountId </td>
-        <td> userName </td>
-        <td> hasPermission </td>
-        <td> lastConnectDate </td>
-        <td> lastConnectTime </td>
-        <td> logType </td>
+        <td> x</td>
+        <td> userAccountId</td>
+        <td> userName</td>
+        <td> groupId</td>
+        <td> groupName</td>
+        <td> status</td>
+        <td> register</td>
     </tr>
     <c:forEach var="item" items="${ualog}" varStatus="x">
         <tr>
             <td>${x.count}</td>
-            <td>${item.userAccountId}</td>
             <td>${item.userName}</td>
-            <td>${item.hasPermission}</td>
-            <td>${item.lastConnectDate}</td>
-            <td>${item.lastConnectTime}</td>
-            <td>${item.logType}</td>
+            <td>${item.userAccountId}</td>
+            <td>${item.groupId}</td>
+            <td>${item.groupName}</td>
+            <td>${item.status}</td>
+            <td><c:if test="${item.status == 1}">
+                <a href="userToGroup.do?register=${item.id}&${Consts.USERACCOUNTID}=${item.userAccountId}">
+                    register </a></c:if></td>
         </tr>
     </c:forEach>
 </table>

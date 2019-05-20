@@ -1,4 +1,3 @@
-<%@ page import="oracle.jdbc.driver.Const" %>
 <%@ page import="util.Consts" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -31,16 +30,21 @@
         <td> password</td>
         <td> email</td>
         <td> phone</td>
-        <td> -</td>
+        <td> id </td>
+        <td> group </td>
+        <td> log </td>
     </tr>
     <c:set var="ua" value="${requestScope.list}"/>
     <c:forEach var="item" items="${ua}" varStatus="x">
         <tr>
-            <td><a href="userAccountLog.do?${Consts.USERACCOUNTID}=${item.id}">${x.count}</a></td>
+            <td>${x.count}</td>
             <td>${item.userName}</td>
             <td>${item.password}</td>
             <td>${item.email}</td>
             <td>${item.phone}</td>
+            <td>${item.id}</td>
+            <td><a href="userToGroup.do?${Consts.USERACCOUNTID}=${item.id}">requested Groups</a></td>
+            <td><a href="userAccountLog.do?${Consts.USERACCOUNTID}=${item.id}">user log</a></td>
         </tr>
     </c:forEach>
 </table>

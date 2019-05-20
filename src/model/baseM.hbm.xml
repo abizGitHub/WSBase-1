@@ -61,9 +61,16 @@
         <property name="hasPermission" type="java.lang.Boolean">
             <column name="hasPermission" sql-type="NUMBER"/>
         </property>
+        <property name="lastConnectDate" type="java.sql.Date">
+            <column name="lastConnectDate" sql-type="DATE"/>
+        </property>
         <property name="lastConnectTime" type="java.sql.Time">
             <column name="lastConnectTime" sql-type="DATE"/>
         </property>
+        <property name="logType" type="java.lang.Integer">
+            <column name="logType" sql-type="NUMBER(1)"/>
+        </property>
+
     </class>
 
     <class name="TagVisiblity" table="TagVisiblity">
@@ -117,6 +124,39 @@
             <column name="FooterRVisible" sql-type="NUMBER"/>
         </property>
 
+    </class>
+
+    <class name="Group" table="Group_">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="native">
+                <param name="sequence">seq_Group</param>
+            </generator>
+        </id>
+        <property name="tableId" type="java.lang.Integer">
+            <column name="tableId" sql-type="NUMBER"/>
+        </property>
+        <property name="name" type="java.lang.String">
+            <column name="name" sql-type="NVARCHAR2(60)"/>
+        </property>
+    </class>
+
+    <class name="UserToGroup" table="User_To_Group">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="native">
+                <param name="sequence">seq_user_Group</param>
+            </generator>
+        </id>
+        <property name="groupId" type="java.lang.Long">
+            <column name="groupId" sql-type="NUMBER"/>
+        </property>
+        <property name="userAccountId" type="java.lang.Long">
+            <column name="userAccountId" sql-type="NUMBER(20)"/>
+        </property>
+        <property name="status" type="java.lang.Integer">
+            <column name="status" sql-type="NUMBER(1)"/>
+        </property>
     </class>
 
 </hibernate-mapping>

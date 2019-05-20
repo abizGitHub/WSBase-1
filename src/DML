@@ -274,14 +274,23 @@ END;
 </trigger>
 
 <table>
-create table UserAccount (id number,email NVARCHAR2(30),password NVARCHAR2(10),phone NVARCHAR2(20),username NVARCHAR2(20));
+
+CREATE TABLE  "USERACCOUNT"
+(	"ID" NUMBER,
+"EMAIL" NVARCHAR2(30),
+"PASSWORD" NVARCHAR2(10),
+"PHONE" NVARCHAR2(20),
+"USERNAME" NVARCHAR2(20)
+) ;
 
 CREATE TABLE  "USERACCOUNTLOG"
 (	"ID" NUMBER,
 "USERACCOUNTID" NUMBER(20,0),
 "HASPERMISSION" NUMBER(1,0),
-"LASTCONNECTTIME" DATE );
-
+"LOGTYPE" NUMBER,
+"LASTCONNECTDATE" DATE,
+"LASTCONNECTTIME" TIMESTAMP (6)
+) ;
 
 create table TagVisiblity(
 ID number,TABLEID NUMBER(1),
@@ -291,6 +300,14 @@ HEADERRSTRING NUMBER(1),HEADERRVISIBLE NUMBER(1),
 HEADERLSTRING NUMBER(1),HEADERLVISIBLE NUMBER(1),
 FOOTERRSTRING NUMBER(1),FOOTERRVISIBLE NUMBER(1),
 FOOTERLSTRING NUMBER(1),FOOTERLVISIBLE NUMBER(1) ) ;
+
+
+CREATE TABLE  "USER_TO_GROUP"
+(	"ID" NUMBER(20,0),
+"USERACCOUNTID" NUMBER(20,0),
+"GROUPID" NUMBER,
+"STATUS" NUMBER(1,0)
+) ;
 
 </table>
 
@@ -311,8 +328,45 @@ nocache
 nocycle
 noorder
 
+create sequence "SEQ_GROUP"
+start with 1
+increment by 1
+minvalue 1
+
+CREATE SEQUENCE   "SEQ_USER_GROUP"
+MINVALUE 1
+INCREMENT BY 1
+START WITH 1
 
 </sequence>
+
+<constraint>
+
+alter table "GROUP_" add constraint
+"PK_GROUP" primary key ("ID") ;
+
+alter table "USERACCOUNT" add constraint
+"PK_USERACCOUNT" primary key ("ID") ;
+
+alter table "USERACCOUNTLOG" add constraint
+"PK_USERACCOUNTLOG" primary key ("ID") ;
+
+alter table "USERACCOUNTLOG" add constraint
+"FK_USERACCOUNTLOG" foreign key ("USERACCOUNTID") references "USERACCOUNT" ("ID") ;
+
+alter table "USER_TO_GROUP" add constraint
+"PK_USER_TO_GROUP" primary key ("ID") ;
+
+alter table "USER_TO_GROUP" add constraint
+"FK_USERGROUP_US" foreign key ("USERACCOUNTID") references "USERACCOUNT" ("ID") ;
+
+alter table "USER_TO_GROUP" add constraint
+"FK_USERGROUP_GR" foreign key ("GROUPID") references "GROUP_" ("ID") ;
+
+
+
+</constraint>
+
 
 
 

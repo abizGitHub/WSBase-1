@@ -19,5 +19,6 @@
         <!--<property name="hibernate.c3p0.timeout">300</property>-->
         <mapping resource="moz/model/Mozayede.hbm.xml"/>
         <mapping resource="model/baseM.hbm.xml"/>
+        <mapping resource="model/baseV.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

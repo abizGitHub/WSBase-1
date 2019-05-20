@@ -10,7 +10,7 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
 
     public void delete(M m);
 
-    public void save(M m);
+    public long save(M m);
 
     public ArrayList<M> loadAll();
 
@@ -19,8 +19,6 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
     public ArrayList<M> findBySQuery(String sql);
 
     public ArrayList<M> findByHQuery(String hql);
-
-    public ArrayList<M> findByFilter(HashMap<String,Object> map);
 
     public void deleteAll();
 
@@ -34,4 +32,7 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
 
     public ArrayList<Long> loadAllIdAfter(String select, Long id, String condition);
 
+    public ArrayList<M> findByFilter(HashMap<String,Object> filter);
+
+    public ArrayList<V> findViewByFilter(HashMap<String, Object> filter);
 }

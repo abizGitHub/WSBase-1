@@ -11,16 +11,24 @@
     <title>Title</title>
 </head>
 <body>
-<br/>
-<a href="userAccountLog.do">userAccountLog</a>
-<br/>
-<a href="userAccounts.do">userAccounts</a>
-<br/>
-<a href="modelMap.do">modelMap</a>
-<br/>
-<a href="tagVisiblity.do">tagVisiblity</a>
-<br/>
-<a href="index.jsp">index</a>
-<br/>
+<table style="width: 60%;height: 10%">
+    <tr>
+        <td><a href="userAccountLog.do">userAccountLog</a></td>
+        <td><a href="userAccounts.do">userAccounts</a>
+        </td>
+        <td><a href="modelMap.do">modelMap</a>
+        </td>
+        <td><a href="tagVisiblity.do">tagVisiblity</a>
+        </td>
+    </tr>
+    <tr>
+        <td><a href="userToGroup.do">userToGroup</a>
+        </td>
+        <td><a href="groups.do">groups</a>
+        </td>
+        <td><a href="index.jsp">index</a>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

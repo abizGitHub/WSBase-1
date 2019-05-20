@@ -1,5 +1,6 @@
 package servlets;
 
+import model.UserAccountLogView;
 import service.ServiceFactory;
 import service.ServiceImpl;
 import util.Consts;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 @WebServlet("/userAccountLog.do")
 public class UserAccountLogServlet extends HttpServlet {
 
-    ServiceImpl<UserAccountLog, UserAccountLog> manager;
+        ServiceImpl<UserAccountLog, UserAccountLogView> manager;
 
     @Override
     public void init() throws ServletException {
@@ -29,7 +30,7 @@ public class UserAccountLogServlet extends HttpServlet {
         req.getParameter(Consts.METHOD);
         HashMap filter = new HashMap<String, Long>();
         filter.put(Consts.USERACCOUNTID, req.getParameter(Consts.USERACCOUNTID));
-        ArrayList<UserAccountLog> list = manager.findByFilter(filter);
+        ArrayList<UserAccountLogView> list = manager.findViewByFilter(filter);
         req.setAttribute("list", list);
         req.getRequestDispatcher("/userAccountLog.jsp").forward(req, resp);
     }

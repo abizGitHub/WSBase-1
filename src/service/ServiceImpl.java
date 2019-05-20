@@ -7,6 +7,7 @@ import util.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements ServiceTemplate<T, V> {
 
@@ -28,13 +29,13 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
     }
 
     @Override
-    public void save(T t) {
+    public long save(T t) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        System.out.println(transaction + ">>" + t.getId());
         session.saveOrUpdate(t);
         transaction.commit();
         session.close();
+        return t.getId();
     }
 
     @Override
@@ -64,30 +65,6 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
     @Override
     public ArrayList<T> findByHQuery(String hql) {
         return null;
-    }
-
-    @Override
-    public ArrayList<T> findByFilter(HashMap<String, Object> map) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        StringBuffer sql = new StringBuffer("from " + clazz.getName() + " p");
-        if (map.size() > 0) {
-            sql.append(" where 1=1 ");
-            for (String key : map.keySet()) {
-                Object param = map.get(key);
-                if (param instanceof String) {
-                    sql.append(" and ").append(key).append("=");
-                    sql.append("'").append(param).append("'");
-                } else if (param instanceof Number) {
-                    sql.append(" and ").append(key).append("=");
-                    sql.append(param);
-                }
-            }
-        }
-        ArrayList<T> list = (ArrayList<T>)
-                session.createQuery(sql.toString() + " order by p.id desc")
-                        .list();
-        session.close();
-        return list;
     }
 
     @Override
@@ -138,6 +115,40 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
         Session session = HibernateUtil.getSessionFactory().openSession();
         ArrayList<Long> list = (ArrayList<Long>)
                 session.createQuery(select + clazz.getName() + " p where p.id > " + id + " AND " + condition + " order by p.id desc")
+                        .list();
+        session.close();
+        return list;
+    }
+
+    @Override
+    public ArrayList<V> findViewByFilter(HashMap<String, Object> filter) {
+        return (ArrayList<V>) findGenericByFilter(filter, clavv);
+    }
+
+
+    @Override
+    public ArrayList<T> findByFilter(HashMap<String, Object> filter) {
+        return (ArrayList<T>) findGenericByFilter(filter, clavv);
+    }
+
+    private List findGenericByFilter(HashMap<String, Object> map, Class cl) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        StringBuffer sql = new StringBuffer("from " + cl.getName() + " p");
+        if (map.size() > 0) {
+            sql.append(" where 1=1 ");
+            for (String key : map.keySet()) {
+                Object param = map.get(key);
+                if (param instanceof String) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append("'").append(param).append("'");
+                } else if (param instanceof Number) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append(param);
+                }
+            }
+        }
+        List list =
+                session.createQuery(sql.toString() + " order by p.id desc")
                         .list();
         session.close();
         return list;

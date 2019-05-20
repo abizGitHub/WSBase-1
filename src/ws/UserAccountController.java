@@ -1,11 +1,12 @@
 package ws;
 
 
-import model.Group;
-import model.UserAccount;
+import model.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import service.ServiceFactory;
+import service.ServiceImpl;
 import util.Consts;
 import util.JsonUtil;
 
@@ -17,20 +18,21 @@ import java.util.HashMap;
 @Path("/userAccount")
 public class UserAccountController {
 
-    static HashMap<Integer, Group> groupsHash;
+    ServiceImpl<UserAccountLog, UserAccountLog> managerUserAccountLog;
+    ServiceImpl<UserAccount, UserAccount> managerUserAccount;
+    ServiceImpl<TagVisiblity, TagVisiblity> managerTagVisiblity;
+    ServiceImpl<ModelMap, ModelMap> managerModelMap;
+    ServiceImpl<Group, Group> managerGroup;
+    ServiceImpl<UserToGroup, UserToGroupView> managerUserToGroup;
 
-    static {
-        groupsHash = new HashMap<>();
-        groupsHash.put(69, new Group(2).fillMock(69));
-        groupsHash.put(50, new Group(1).fillMock(50));
-        groupsHash.put(47, new Group(1).fillMock(47));
-        groupsHash.put(33, new Group(2).fillMock(33));
-        groupsHash.put(17, new Group(2).fillMock(17));
-        groupsHash.put(8, new Group(2).fillMock(8));
-        groupsHash.put(3, new Group(2).fillMock(3));
-        groupsHash.put(4, new Group(1).fillMock(4));
+    public UserAccountController() {
+        managerUserAccountLog = ServiceFactory.getInstance().o().get(UserAccountLog.class);
+        managerUserAccount = ServiceFactory.getInstance().o().get(UserAccount.class);
+        managerTagVisiblity = ServiceFactory.getInstance().o().get(TagVisiblity.class);
+        managerModelMap = ServiceFactory.getInstance().o().get(ModelMap.class);
+        managerGroup = ServiceFactory.getInstance().o().get(Group.class);
+        managerUserToGroup = ServiceFactory.getInstance().o().get(UserToGroup.class);
     }
-
 
     @POST
     @Path("/registerUser")
@@ -38,21 +40,49 @@ public class UserAccountController {
     @Produces(MediaType.APPLICATION_JSON)
     public JSONObject registerUser(String strReq) {
         System.out.println("Reg>" + strReq);
-        JSONObject jsonResponse = new JSONObject();
         try {
             UserAccount user = JsonUtil.extractUserAccount(new JSONObject(strReq));
-            System.out.println("register:" + user.getUserName() + "," + user.getPassword() + "," + user.getPhone() + "," + user.getEmail());
+            UserAccount loaded = loadUserByName(user.getUserName());
+            if (loaded != null) {
+                if (user.getPassword() != null && loaded.getPassword() != null) {
+                    if (user.getPassword().equals(loaded.getPassword())) {
+                        managerUserAccountLog.save(new UserAccountLog(loaded, UserAccountLog.REVIVED));
+                        return putResponse(Consts.USERNAMEREVIVED, 0);
+                    } else {
+                        return putResponse(Consts.USERNAMERESERVED, 0);
+                    }
+                }
+            } else {
+                System.out.println("register:" + user.getUserName() + "," + user.getPassword() + "," + user.getPhone() + "," + user.getEmail());
+                try {
+                    long userId = managerUserAccount.save(user);
+                    managerUserAccountLog.save(new UserAccountLog(user, UserAccountLog.REGISTERED));
+                    return putResponse(Consts.USERREGISTERED, userId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return putResponse(Consts.CANTREGISTERE, 0);
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return putResponse(Consts.CANTREGISTERE, 0);
+    }
+
+    private UserAccount loadUserByName(String userName) {
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put("userName", userName);
+        ArrayList<UserAccount> loaded = managerUserAccount.findByFilter(filter);
+        if (loaded != null && loaded.size() > 0)
+            return loaded.get(0);
+        return null;
+    }
+
+    private JSONObject putResponse(int userregistered, long userId) {
+        JSONObject jsonResponse = new JSONObject();
         try {
-            Thread.sleep(999);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
-            jsonResponse.put("response", Consts.USERREGISTERED);
-            jsonResponse.put("id", 17360439);
+            jsonResponse.put("response", userregistered);
+            jsonResponse.put("id", userId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -66,24 +96,25 @@ public class UserAccountController {
     @Produces(MediaType.APPLICATION_JSON)
     public JSONObject updateUser(String strReq) {
         System.out.println("update>" + strReq);
-        JSONObject jsonObject = new JSONObject();
         try {
             UserAccount user = JsonUtil.extractUserAccount(new JSONObject(strReq));
-            System.out.println("updatedUser:" + user.getUserName() + "," + user.getPassword() + "," + user.getPhone() + "," + user.getEmail());
+            boolean valid = (user.getUserName() != null && user.getUserName().trim().length() > 1);
+            valid &= (user.getId() > 0 && user.getPassword() != null && user.getPassword().trim().length() > 1);
+            if (valid) {
+                UserAccount loaded = managerUserAccount.findById(user.getId());
+                if (loaded.getUserName().equals(user.getUserName())) {
+                    managerUserAccount.save(user);
+                    managerUserAccountLog.save(new UserAccountLog(user, UserAccountLog.USERUPDATED));
+                    System.out.println("updatedUser:" + user.getUserName() + "," + user.getPassword() + "," + user.getPhone() + "," + user.getEmail());
+                    return putResponse(Consts.USERREGISTERED, user.getId());
+                } else {
+                    return putResponse(Consts.CANTREGISTERE, 0);
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        try {
-            Thread.sleep(999);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        try {
-            jsonObject.put("response", Consts.USERREGISTERED);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
+        return putResponse(Consts.CANTREGISTERE, 0);
     }
 
     @POST
@@ -95,27 +126,86 @@ public class UserAccountController {
         System.out.println("ix:" + tableIx + " groups>" + strReq);
         try {
             JSONObject reqJson = new JSONObject(strReq);
-            ArrayList<Integer> reqRegisterGroup = JsonUtil.extractGroupIds(reqJson, Group.REGISTERED$);
-            ArrayList<Integer> reqOrderGroup = JsonUtil.extractGroupIds(reqJson, Group.ORDERED$);
-            applyOrderGroup(reqOrderGroup, reqRegisterGroup);
-            JSONArray array = new JSONArray();
-            for (Integer id : groupsHash.keySet()) {
-                array.put(JsonUtil.parseGr(groupsHash.get(id)));
+            Confiq reqCnf = JsonUtil.extractConfiq(reqJson);
+            UserAccount loadedUser = null;
+            if (reqCnf.getUserId() != null) loadedUser = managerUserAccount.findById(reqCnf.getUserId());
+            if (loadedUser != null && loadedUser.getUserName().equals(reqCnf.getUserName())) {
+                JSONArray array = new JSONArray();
+                HashMap<String, Object> filter = new HashMap<>();
+                filter.put("tableId", tableIx);
+                ArrayList<Group> groups = managerGroup.findByFilter(filter);
+                for (Group group : groups) {
+                    array.put(JsonUtil.parseGr(group));
+                }
+                ArrayList<Integer> orderList = loadGroupForUserByStatus(loadedUser.getId(), Group.ORDERED, tableIx);
+                ArrayList<Integer> registerList = loadGroupForUserByStatus(loadedUser.getId(), Group.REGISTERED, tableIx);
+                jsonObject.put(Group.ORDERED$, orderList);
+                jsonObject.put(Group.REGISTERED$, registerList);
+                jsonObject.put("groupList", array);
             }
-            jsonObject.put("groupList", array);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
     }
 
-
-    private static void applyOrderGroup(ArrayList<Integer> reqOrderGroup, ArrayList<Integer> reqRegisterGroup) {
-        for (Integer id : reqOrderGroup) {
-            groupsHash.get(id).setStatus(Group.REGISTERED);
+    private ArrayList<Integer> loadGroupForUserByStatus(long id, int status, Integer tableIx) {
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put("userAccountId", id);
+        filter.put("status", status);
+        filter.put("tableId", tableIx);
+        ArrayList<UserToGroupView> list = managerUserToGroup.findViewByFilter(filter);
+        ArrayList<Integer> ints = new ArrayList<>();
+        for (UserToGroupView userToGroup : list) {
+            ints.add(Math.toIntExact(userToGroup.getGroupId()));
         }
-        for (Integer id : reqRegisterGroup) {
-            groupsHash.get(id).setStatus(Group.REGISTERED);
+        return ints;
+    }
+
+    @POST
+    @Path("/orderGroup")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONObject orderGroup(String strReq) {
+        JSONObject jsonObject = new JSONObject();
+        System.out.println( "groups>" + strReq);
+        try {
+            JSONObject reqJson = new JSONObject(strReq);
+            Confiq reqCnf = JsonUtil.extractConfiq(reqJson);
+            UserAccount loadedUser = managerUserAccount.findById(reqCnf.getUserId());
+            if (loadedUser != null && loadedUser.getUserName().equals(reqCnf.getUserName())) {
+                ArrayList<Integer> reqOrderGroup = JsonUtil.extractGroupIds(reqJson, Group.ORDERED$);
+                if (reqOrderGroup != null && reqOrderGroup.size() > 0)
+                    try {
+                        orderGroupsForUser(reqOrderGroup, loadedUser.getId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        jsonObject.put("response", 0);
+                        return jsonObject;
+                    }
+                jsonObject.put("response", Group.ORDERED$);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private void orderGroupsForUser(ArrayList<Integer> reqOrderGroup, long userId) {
+        HashMap<String, Object> filter = new HashMap<>();
+        for (Integer ord : reqOrderGroup) {
+            filter.put("userAccountId", userId);
+            filter.put("groupId", ord);
+            ArrayList<UserToGroup> list = managerUserToGroup.findByFilter(filter);
+            if (list != null && list.size() > 0) {
+                //  alreadyExist
+            } else {
+                UserToGroup userToGroup = new UserToGroup();
+                userToGroup.setGroupId(Long.valueOf(ord));
+                userToGroup.setUserAccountId(userId);
+                userToGroup.setStatus(Group.ORDERED);
+                managerUserToGroup.save(userToGroup);
+            }
         }
     }
 

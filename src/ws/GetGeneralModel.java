@@ -87,29 +87,6 @@ public class GetGeneralModel {
         return jsonObject;
     }
 
-    @POST
-    @Path("/postJson")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void setFileJ(JSONObject object) {
-        System.out.println("@@@>" + object);
-    }
-
-    @POST
-    @Path("/CompleXPost/{ix}/X/{iy}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public JSONObject getFileJ_Res(JSONObject object, @PathParam("ix") String ix, @PathParam("iy") String iy) {
-        System.out.println("str:" + ix + " and " + iy + ",Object:" + object);
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("s", new String("s in param is:" + ix + " and " + iy + " , in body is:" + object.get("s")));
-            jsonObject.put("i*66_from_Json", (Integer) object.get("i") * 66);
-            jsonObject.put("l", 39865447L);
-        } catch (JSONException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return jsonObject;
-    }
 
     public static void main(String[] args) {
         ArrayList<ModelMap> modelMapAfter = GeneralServiceImpl.getInstance().getModelMapAfter(0L);

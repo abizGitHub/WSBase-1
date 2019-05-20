@@ -397,6 +397,10 @@ public class JsonUtil {
         } catch (JSONException e) {
         }
         try {
+            user.setId(Long.parseLong(reqJson.get(Consts.ID).toString()));
+        } catch (JSONException e) {
+        }
+        try {
             user.setPassword(reqJson.get(Consts.PASSWORD).toString());
         } catch (JSONException e) {
         }
@@ -465,7 +469,8 @@ public class JsonUtil {
         try {
             json.put(Consts.ID, gr.getId());
             json.put(Consts.NAME, gr.getName());
-            json.put(Consts.STATUS, gr.getStatus());
+            if (gr.getStatus() > 0)
+                json.put(Consts.STATUS, gr.getStatus());
             json.put(Consts.TABLEID, gr.getTableId());
         } catch (JSONException e) {
             e.printStackTrace();

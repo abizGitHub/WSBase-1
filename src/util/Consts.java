@@ -34,6 +34,7 @@ public class Consts {
     public static final String EMAIL = "EMAIL";
     public static final String USERACCOUNTEDITED = "USERACCOUNTEDITED";
     public static final String TABLEID = "TABLE_ID";
+    public static final int USERNAMEREVIVED = 419087; // sabte mojadad
     public static int USERREGISTERED = 34209;
     public static int USERNAMERESERVED = 78615;
     public static int CANTREGISTERE = 10209;

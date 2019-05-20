@@ -1,16 +1,14 @@
 package model;
 
-import java.io.Serializable;
 
 /**
  * Created by abiz on 5/11/2019.
  */
 
-public class Group implements Serializable {
+public class Group  extends BaseModel{
 
     public static final String ORDERED$ = "ORDERED";
     public static final String REGISTERED$ = "REGISTERED";
-    private int id;
     private String name;
     public static int UNREGISTERED = 0;
     public static int ORDERED = 1;
@@ -20,14 +18,6 @@ public class Group implements Serializable {
 
     public Group(int tableId) {
         this.tableId = tableId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -46,19 +36,14 @@ public class Group implements Serializable {
         this.status = status;
     }
 
-    public Group fillMock(int i) {
-        this.id = i;
-        this.name = "123456 abc def ghi jkl > The crazy brown fox jumps over the lazy dog >id:" + i;
-        this.name += " \n line two ";
-        this.name += " \n line 3 three for group sample ";
-        return this;
-    }
-
     public int getTableId() {
         return tableId;
     }
 
     public void setTableId(int tableId) {
         this.tableId = tableId;
+    }
+
+    public Group() {
     }
 }

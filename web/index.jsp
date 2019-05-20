@@ -17,15 +17,13 @@
   <br/>
   <br/>
   <br/>
-  <a href="userAccountLog.do">userAccountLog</a>
+  <center>
+    <h1>HOME
+    </h1>
+  </center>
   <br/>
+  <jsp:include page="header.jsp"/>
   <br/>
-  <br/>
-  <a href="userAccounts.do">userAccounts</a>
-  <br/>
-  <a href="modelMap.do">modelMap</a>
-  <br/>
-  <a href="tagVisiblity.do">tagVisiblity</a>
   </body>
 
 </html>

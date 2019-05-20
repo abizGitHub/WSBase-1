@@ -24,9 +24,11 @@ public class ServiceFactory {
         ServiceImpl<Client, ClientView> clientService = new ServiceImpl<Client, ClientView>(Client.class, ClientView.class);
         ServiceImpl<ModelMap, ModelMap> modelMapService = new ServiceImpl<ModelMap, ModelMap>(ModelMap.class, ModelMap.class);
         ServiceImpl<UserAccount, UserAccount> userAccountService = new ServiceImpl<UserAccount, UserAccount>(UserAccount.class, UserAccount.class);
-        ServiceImpl<UserAccountLog, UserAccountLog> userAccountLogService
-                = new ServiceImpl<UserAccountLog, UserAccountLog>(UserAccountLog.class, UserAccountLog.class);
+        ServiceImpl<UserAccountLog, UserAccountLogView> userAccountLogService
+                = new ServiceImpl<UserAccountLog, UserAccountLogView>(UserAccountLog.class, UserAccountLogView.class);
         ServiceImpl<TagVisiblity, TagVisiblity> tagVisService = new ServiceImpl<>(TagVisiblity.class, TagVisiblity.class);
+        ServiceImpl<Group, Group> groupService = new ServiceImpl<Group, Group>(Group.class, Group.class);
+        ServiceImpl<UserToGroup, UserToGroupView> groupUserService = new ServiceImpl<UserToGroup, UserToGroupView>(UserToGroup.class, UserToGroupView.class);
 
         services.put(Auction.class, auctionService);
         services.put(City.class, cityService);
@@ -37,6 +39,8 @@ public class ServiceFactory {
         services.put(UserAccount.class, userAccountService);
         services.put(UserAccountLog.class, userAccountLogService);
         services.put(TagVisiblity.class, tagVisService);
+        services.put(Group.class, groupService);
+        services.put(UserToGroup.class, groupUserService);
     }
 
     public HashMap<Class<? extends BaseModel>, ServiceImpl> o() {
