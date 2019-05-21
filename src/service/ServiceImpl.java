@@ -1,6 +1,8 @@
 package service;
 
 import model.BaseModel;
+import model.GMStruct;
+import model.GeneralModel;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -152,6 +154,35 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
                         .list();
         session.close();
         return list;
+    }
+
+    @Override
+    public ArrayList<GeneralModel> generalModelAfter(Integer tableIx, Long id) {
+        ServiceImpl<GMStruct, GMStruct> service = ServiceFactory.getInstance().o().get(GMStruct.class);
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put("tableIx", tableIx);
+        GMStruct struct = service.findByFilter(filter).get(0);
+        StringBuffer query = new StringBuffer("SELECT ");
+        //if (struct.getTitle() != null && struct.getTitle().trim().length() > 0)
+        query.append(" TB." + struct.getTitle() + " AS title,");
+        //if (struct.getBody() != null && struct.getBody().trim().length() > 0)
+        query.append(" TB." + struct.getBody() + " AS body,");
+        //if (struct.getHeaderR() != null && struct.getHeaderR().trim().length() > 0)
+        query.append(" TB." + struct.getHeaderR() + " AS headerR,");
+        //if (struct.getHeaderL() != null && struct.getHeaderL().trim().length() > 0)
+        query.append(" TB." + struct.getHeaderL() + " AS headerL,");
+        //if (struct.getFooterR() != null && struct.getFooterR().trim().length() > 0)
+        query.append(" TB." + struct.getFooterR() + " AS footerR,");
+        //if (struct.getFooterL() != null && struct.getFooterL().trim().length() > 0)
+        query.append(" TB." + struct.getFooterL() + " AS footerL,");
+
+        query.append("TB.id as id FROM ");
+        query.append(struct.getTableName());
+        query.append(" TB WHERE TB.id > " + id);
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List list = session.createSQLQuery(query.toString().replace("TB.null", "null")).addEntity(GeneralModel.class).list();
+        session.close();
+        return (ArrayList<GeneralModel>) list;
     }
 
     public Class getClazz() {

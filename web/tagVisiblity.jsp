@@ -32,7 +32,7 @@
         <input name="tableId" type="hidden" value="${item.tableId}"/>
         <input name="id" type="hidden" value="${item.id}"/>
 
-        <table border="true" style="text-align: center">
+        <table border="true" style="text-align: center;width : 100%">
             <tr>
                 <td>tableId : ${item.tableId}</td>
             </tr>

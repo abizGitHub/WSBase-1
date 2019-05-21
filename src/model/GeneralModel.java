@@ -5,6 +5,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -40,8 +41,20 @@ public class GeneralModel implements Serializable {
     public static int FOOTER_R = 5;
     public static int FOOTER_L = 6;
     public static int STAR = 7;
+    public static HashMap<Integer, String> columnMap;
+
+    static {
+        columnMap = new HashMap<>();
+        columnMap.put(TITLE, TITLE$);
+        columnMap.put(BODY, BODY$);
+        columnMap.put(HEADER_L, HEADERL$);
+        columnMap.put(HEADER_R, HEADERR$);
+        columnMap.put(FOOTER_L, FOOTERL$);
+        columnMap.put(FOOTER_R, FOOTERR$);
+    }
 
     public GeneralModel() {
+
     }
 
     public GeneralModel(JSONObject json) throws JSONException {

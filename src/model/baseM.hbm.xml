@@ -159,4 +159,60 @@
         </property>
     </class>
 
+    <class name="model.GMStruct" table="GMStruct">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="tableIx" type="java.lang.Integer">
+            <column name="tableIx" sql-type="NUMBER(1)"/>
+        </property>
+        <property name="tableName" type="java.lang.String">
+            <column name="tableName" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="title" type="java.lang.String">
+            <column name="title" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="headerR" type="java.lang.String">
+            <column name="headerR" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="headerL" type="java.lang.String">
+            <column name="headerL" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="body" type="java.lang.String">
+            <column name="body" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="footerL" type="java.lang.String">
+            <column name="footerL" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="footerR" type="java.lang.String">
+            <column name="footerR" sql-type="VARCHAR2(20)"/>
+        </property>
+    </class>
+
+    <class name="model.GeneralModel" table="GMStructX">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="title" type="java.lang.String">
+            <column name="title" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="headerR" type="java.lang.String">
+            <column name="headerR" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="headerL" type="java.lang.String">
+            <column name="headerL" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="body" type="java.lang.String">
+            <column name="body" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="footerL" type="java.lang.String">
+            <column name="footerL" sql-type="VARCHAR2(20)"/>
+        </property>
+        <property name="footerR" type="java.lang.String">
+            <column name="footerR" sql-type="VARCHAR2(20)"/>
+        </property>
+    </class>
+
 </hibernate-mapping>

@@ -23,7 +23,7 @@
 <jsp:include page="header.jsp"/>
 <br/>
 <br/>
-<table border="1" style="text-align: center">
+<table border="1" style="text-align: center;width : 100%">
     <tr>
         <td></td>
         <td> userName</td>

@@ -1,7 +1,5 @@
-<%@ page import="oracle.jdbc.driver.Const" %>
-<%@ page import="util.Consts" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page import="model.GeneralModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -17,7 +15,7 @@
 <br/>
 <c:set var="ua" value="${requestScope.list}"/>
 <br/>
-<table border="true" style="text-align: center">
+<table border="true" style="text-align: center;width : 100%">
     <tr>
         <td></td>
         <td>tableId</td>
@@ -30,7 +28,7 @@
         <tr>
             <td>${x.count}</td>
             <td>${item.tableId}</td>
-            <td>${item.columnIx}</td>
+            <td>${item.columnIx} - ${GeneralModel.columnMap.get(item.columnIx)}</td>
             <td>${item.intValue}</td>
             <td>${item.stringValue}</td>
             <td>${item.idDelete}</td>

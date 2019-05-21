@@ -27,7 +27,6 @@ public class UserAccountLogServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getParameter(Consts.METHOD);
         HashMap filter = new HashMap<String, Long>();
         filter.put(Consts.USERACCOUNTID, req.getParameter(Consts.USERACCOUNTID));
         ArrayList<UserAccountLogView> list = manager.findViewByFilter(filter);

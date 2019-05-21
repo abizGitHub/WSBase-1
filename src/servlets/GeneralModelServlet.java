@@ -1,10 +1,9 @@
 package servlets;
 
+import model.GeneralModel;
 import model.UserAccount;
-import model.UserAccountLog;
 import service.ServiceFactory;
 import service.ServiceImpl;
-import util.Consts;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,11 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
-@WebServlet("/userAccounts.do")
-public class UserAccountServlet extends HttpServlet {
+@WebServlet("/generalModel.do")
+public class GeneralModelServlet extends HttpServlet {
 
     ServiceImpl<UserAccount, UserAccount> manager;
 
@@ -28,10 +26,11 @@ public class UserAccountServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ArrayList<UserAccount> list = manager.loadAll();
+        Integer tableIx = Integer.valueOf(req.getParameter("tableIx"));
+        ArrayList<GeneralModel> list = manager.generalModelAfter(tableIx, 0L);
         req.setAttribute("list", list);
-        System.out.println(list.get(0));
-        req.getRequestDispatcher("/userAccount.jsp").forward(req, resp);
+        req.setAttribute("tableIx", tableIx);
+        req.getRequestDispatcher("/generalModel.jsp").forward(req, resp);
     }
 
 }

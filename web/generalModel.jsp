@@ -1,5 +1,3 @@
-<%@ page import="oracle.jdbc.driver.Const" %>
-<%@ page import="util.Consts" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,26 +8,33 @@
 </head>
 <body>
 <center>
-    <h1>Group</h1>
+    <h1>General Model ${requestScope.tableIx}</h1>
 </center>
 <br/>
 <jsp:include page="header.jsp"/>
 <br/>
-<c:set var="ua" value="${requestScope.list}"/>
 <br/>
 <table border="true" style="text-align: center;width : 100%">
     <tr>
         <td></td>
-        <td>tableId</td>
-        <td>name</td>
         <td>id</td>
+        <td>title</td>
+        <td>headerL</td>
+        <td>headerR</td>
+        <td>body</td>
+        <td>footerL</td>
+        <td>footerR</td>
     </tr>
-    <c:forEach var="item" items="${ua}" varStatus="x">
+    <c:forEach var="item" items="${requestScope.list}" varStatus="x">
         <tr>
             <td>${x.count}</td>
-            <td>${item.tableId}</td>
-            <td>${item.name}</td>
             <td>${item.id}</td>
+            <td>${item.title}</td>
+            <td>${item.headerL}</td>
+            <td>${item.headerR}</td>
+            <td>${item.body}</td>
+            <td>${item.footerL}</td>
+            <td>${item.footerR}</td>
         </tr>
     </c:forEach>
 </table>

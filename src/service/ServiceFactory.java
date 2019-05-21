@@ -29,6 +29,8 @@ public class ServiceFactory {
         ServiceImpl<TagVisiblity, TagVisiblity> tagVisService = new ServiceImpl<>(TagVisiblity.class, TagVisiblity.class);
         ServiceImpl<Group, Group> groupService = new ServiceImpl<Group, Group>(Group.class, Group.class);
         ServiceImpl<UserToGroup, UserToGroupView> groupUserService = new ServiceImpl<UserToGroup, UserToGroupView>(UserToGroup.class, UserToGroupView.class);
+        ServiceImpl<GMStruct, GMStruct> gMStructService = new ServiceImpl<GMStruct, GMStruct>(GMStruct.class, GMStruct.class);
+
 
         services.put(Auction.class, auctionService);
         services.put(City.class, cityService);
@@ -41,6 +43,7 @@ public class ServiceFactory {
         services.put(TagVisiblity.class, tagVisService);
         services.put(Group.class, groupService);
         services.put(UserToGroup.class, groupUserService);
+        services.put(GMStruct.class, gMStructService);
     }
 
     public HashMap<Class<? extends BaseModel>, ServiceImpl> o() {

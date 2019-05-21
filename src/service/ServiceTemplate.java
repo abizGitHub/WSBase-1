@@ -2,6 +2,7 @@ package service;
 
 
 import model.BaseModel;
+import model.GeneralModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,10 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
 
     public ArrayList<Long> loadAllIdAfter(String select, Long id, String condition);
 
-    public ArrayList<M> findByFilter(HashMap<String,Object> filter);
+    public ArrayList<M> findByFilter(HashMap<String, Object> filter);
 
     public ArrayList<V> findViewByFilter(HashMap<String, Object> filter);
+
+    public ArrayList<GeneralModel> generalModelAfter(Integer tableIx, Long id);
+
 }
