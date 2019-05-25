@@ -44,7 +44,7 @@
             <column name="phone" sql-type="NVARCHAR2(20)"/>
         </property>
         <property name="userName" type="java.lang.String">
-            <column name="userName" sql-type="NVARCHAR2(10)"/>
+            <column name="userName" sql-type="NVARCHAR2(30)"/>
         </property>
     </class>
 
@@ -59,7 +59,7 @@
             <column name="userAccountId" sql-type="NUMBER"/>
         </property>
         <property name="hasPermission" type="java.lang.Boolean">
-            <column name="hasPermission" sql-type="NUMBER"/>
+            <column name="hasPermission" sql-type="NUMBER(1)"/>
         </property>
         <property name="lastConnectDate" type="java.sql.Date">
             <column name="lastConnectDate" sql-type="DATE"/>
@@ -70,7 +70,9 @@
         <property name="logType" type="java.lang.Integer">
             <column name="logType" sql-type="NUMBER(1)"/>
         </property>
-
+        <property name="deletedUserAccountId" type="java.lang.Long">
+            <column name="deletedUserAccountId" sql-type="NUMBER"/>
+        </property>
     </class>
 
     <class name="TagVisiblity" table="TagVisiblity">
@@ -81,43 +83,45 @@
         <property name="tableId" type="java.lang.Integer">
             <column name="tableId" sql-type="NUMBER"/>
         </property>
-
-        <property name="bodyString" type="java.lang.Boolean">
+        <property name="starVisible" type="java.lang.Boolean">
+            <column name="starVisible" sql-type="NUMBER"/>
+        </property>
+        <property name="bodyString" type="java.lang.Integer">
             <column name="bodyString" sql-type="NUMBER"/>
         </property>
         <property name="bodyVisible" type="java.lang.Boolean">
             <column name="bodyVisible" sql-type="NUMBER"/>
         </property>
 
-        <property name="titleString" type="java.lang.Boolean">
+        <property name="titleString" type="java.lang.Integer">
             <column name="titleString" sql-type="NUMBER"/>
         </property>
         <property name="titleVisible" type="java.lang.Boolean">
             <column name="titleVisible" sql-type="NUMBER"/>
         </property>
 
-        <property name="headerLString" type="java.lang.Boolean">
+        <property name="headerLString" type="java.lang.Integer">
             <column name="headerLString" sql-type="NUMBER"/>
         </property>
         <property name="headerLVisible" type="java.lang.Boolean">
             <column name="headerLVisible" sql-type="NUMBER"/>
         </property>
 
-        <property name="headerRString" type="java.lang.Boolean">
+        <property name="headerRString" type="java.lang.Integer">
             <column name="headerRString" sql-type="NUMBER"/>
         </property>
         <property name="headerRVisible" type="java.lang.Boolean">
             <column name="headerRVisible" sql-type="NUMBER"/>
         </property>
 
-        <property name="FooterLString" type="java.lang.Boolean">
+        <property name="FooterLString" type="java.lang.Integer">
             <column name="FooterLString" sql-type="NUMBER"/>
         </property>
         <property name="FooterLVisible" type="java.lang.Boolean">
             <column name="FooterLVisible" sql-type="NUMBER"/>
         </property>
 
-        <property name="FooterRString" type="java.lang.Boolean">
+        <property name="FooterRString" type="java.lang.Integer">
             <column name="FooterRString" sql-type="NUMBER"/>
         </property>
         <property name="FooterRVisible" type="java.lang.Boolean">
@@ -214,5 +218,101 @@
             <column name="footerR" sql-type="VARCHAR2(20)"/>
         </property>
     </class>
+
+    <class name="TableTag" table="TableTag">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="serial" type="java.lang.Integer">
+            <column name="serial" sql-type="NUMBER"/>
+        </property>
+        <property name="tableName" type="java.lang.String">
+            <column name="tableName" sql-type="VARCHAR2(30)"/>
+        </property>
+    </class>
+
+    <class name="PortalConfiq" table="PortalConfiq">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="increment"/>
+        </id>
+        <property name="wait4Server" type="java.lang.Integer">
+            <column name="wait4Server" sql-type="NUMBER(3)"/>
+        </property>
+        <property name="connectPeriod" type="java.lang.Integer">
+            <column name="connectPeriod" sql-type="NUMBER(4)"/>
+        </property>
+        <property name="updateGroup" type="java.lang.Boolean">
+            <column name="updateGroup" sql-type="NUMBER(1)"/>
+        </property>
+        <property name="haveNewChange" type="java.lang.Boolean">
+            <column name="haveNewChange" sql-type="NUMBER(1)"/>
+        </property>
+        <property name="lastModelMapId" type="java.lang.Long">
+            <column name="lastModelMapId" sql-type="NUMBER(20)"/>
+        </property>
+        <property name="lastGMId1" type="java.lang.Long">
+            <column name="lastGMId1" sql-type="NUMBER(20)"/>
+        </property>
+        <property name="lastGMId2" type="java.lang.Long">
+            <column name="lastGMId2" sql-type="NUMBER(20)"/>
+        </property>
+        <property name="lastGMId3" type="java.lang.Long">
+            <column name="lastGMId3" sql-type="NUMBER(20)"/>
+        </property>
+        <property name="lastGMId4" type="java.lang.Long">
+            <column name="lastGMId4" sql-type="NUMBER(20)"/>
+        </property>
+        <property name="lastGMId5" type="java.lang.Long">
+            <column name="lastGMId5" sql-type="NUMBER(20)"/>
+        </property>
+        <property name="lastGMId6" type="java.lang.Long">
+            <column name="lastGMId6" sql-type="NUMBER(20)"/>
+        </property>
+            <property name="lastGroupId1" type="java.lang.Integer">
+            <column name="lastGroupId1" sql-type="NUMBER(6)"/>
+        </property>
+        <property name="lastGroupId2" type="java.lang.Integer">
+            <column name="lastGroupId2" sql-type="NUMBER(6)"/>
+        </property>
+        <property name="lastGroupId3" type="java.lang.Integer">
+            <column name="lastGroupId3" sql-type="NUMBER(6)"/>
+        </property>
+        <property name="lastGroupId4" type="java.lang.Integer">
+            <column name="lastGroupId4" sql-type="NUMBER(6)"/>
+        </property>
+        <property name="lastGroupId5" type="java.lang.Integer">
+            <column name="lastGroupId5" sql-type="NUMBER(6)"/>
+        </property>
+        <property name="lastGroupId6" type="java.lang.Integer">
+            <column name="lastGroupId6" sql-type="NUMBER(6)"/>
+        </property>
+        <property name="sendDetail" type="java.lang.Boolean">
+            <column name="sendDetail" sql-type="NUMBER(1)"/>
+        </property>
+        <property name="clearDB" type="java.lang.Boolean">
+            <column name="clearDB" sql-type="NUMBER(1)"/>
+        </property>
+        <property name="tableName1" type="java.lang.String">
+            <column name="tableName1" sql-type="VARCHAR2(30)"/>
+        </property>
+        <property name="tableName2" type="java.lang.String">
+            <column name="tableName2" sql-type="VARCHAR2(30)"/>
+        </property>
+        <property name="tableName3" type="java.lang.String">
+            <column name="tableName3" sql-type="VARCHAR2(30)"/>
+        </property>
+        <property name="tableName4" type="java.lang.String">
+            <column name="tableName4" sql-type="VARCHAR2(30)"/>
+        </property>
+        <property name="tableName5" type="java.lang.String">
+            <column name="tableName5" sql-type="VARCHAR2(30)"/>
+        </property>
+        <property name="tableName6" type="java.lang.String">
+            <column name="tableName6" sql-type="VARCHAR2(30)"/>
+        </property>
+    </class>
+
 
 </hibernate-mapping>

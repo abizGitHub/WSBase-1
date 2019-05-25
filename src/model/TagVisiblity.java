@@ -16,20 +16,20 @@ public class TagVisiblity extends BaseModel {
     private boolean footerLVisible;
     private boolean starVisible;
     private int tableId;
-    private boolean titleString;
-    private boolean headerRString;
-    private boolean headerLString;
-    private boolean bodyString;
-    private boolean footerRString;
-    private boolean footerLString;
+    private int titleString;
+    private int headerRString;
+    private int headerLString;
+    private int bodyString;
+    private int footerRString;
+    private int footerLString;
 
     public TagVisiblity(int ix) {
-        titleString = true;
-        headerRString = true;
-        headerLString = true;
-        bodyString = true;
-        footerRString = true;
-        footerLString = true;
+        titleString = 0;
+        headerRString = 0;
+        headerLString = 0;
+        bodyString = 0;
+        footerRString = 0;
+        footerLString = 0;
         tableId = ix;
     }
 
@@ -132,6 +132,54 @@ public class TagVisiblity extends BaseModel {
         this.tableId = tableId;
     }
 
+    public int getTitleString() {
+        return titleString;
+    }
+
+    public void setTitleString(int titleString) {
+        this.titleString = titleString;
+    }
+
+    public int getHeaderRString() {
+        return headerRString;
+    }
+
+    public void setHeaderRString(int headerRString) {
+        this.headerRString = headerRString;
+    }
+
+    public int getHeaderLString() {
+        return headerLString;
+    }
+
+    public void setHeaderLString(int headerLString) {
+        this.headerLString = headerLString;
+    }
+
+    public int getBodyString() {
+        return bodyString;
+    }
+
+    public void setBodyString(int bodyString) {
+        this.bodyString = bodyString;
+    }
+
+    public int getFooterRString() {
+        return footerRString;
+    }
+
+    public void setFooterRString(int footerRString) {
+        this.footerRString = footerRString;
+    }
+
+    public int getFooterLString() {
+        return footerLString;
+    }
+
+    public void setFooterLString(int footerLString) {
+        this.footerLString = footerLString;
+    }
+
     public TagVisiblity fillMock() {
         this.setTitleVisible(new Random().nextBoolean());
         this.setStarVisible(new Random().nextBoolean());
@@ -147,61 +195,57 @@ public class TagVisiblity extends BaseModel {
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append("tableId :  " + tableId + "\n");
-        buffer.append("Title :  " + isTitleVisible() + " ,isString" + isTitleString() + "\n");
-        buffer.append("Body :  " + isBodyVisible() + " ,isString" + isBodyString() + "\n");
-        buffer.append("HeaderR :  " + isHeaderRVisible() + " ,isString" + isHeaderRString() + "\n");
-        buffer.append("HeaderL :  " + isHeaderLVisible() + " ,isString" + isHeaderLString() + "\n");
-        buffer.append("FooterR :  " + isFooterRVisible() + " ,isString" + isFooterRString() + "\n");
-        buffer.append("FooterL :  " + isFooterLVisible() + " ,isString" + isFooterLString() + "\n");
+        buffer.append("Title :  " + isTitleVisible() + " ,isString :" + titleString + "\n");
+        buffer.append("Body :  " + isBodyVisible() + " ,isString :" + bodyString + "\n");
+        buffer.append("HeaderR :  " + isHeaderRVisible() + " ,isString :" + headerRString + "\n");
+        buffer.append("HeaderL :  " + isHeaderLVisible() + " ,isString :" + headerLString + "\n");
+        buffer.append("FooterR :  " + isFooterRVisible() + " ,isString :" + footerRString + "\n");
+        buffer.append("FooterL :  " + isFooterLVisible() + " ,isString :" + footerLString + "\n");
         return buffer.toString();
     }
 
-    public boolean isTitleString() {
-        return titleString;
-    }
+    public boolean equal(TagVisiblity vis) {
+        boolean eq = this.isTitleVisible() == vis.isTitleVisible();
+        if (!eq)
+            return false;
+        eq = this.isBodyVisible() == vis.isBodyVisible();
+        if (!eq)
+            return false;
+        eq = this.isHeaderLVisible() == vis.isHeaderLVisible();
+        if (!eq)
+            return false;
+        eq = this.isHeaderRVisible() == vis.isHeaderRVisible();
+        if (!eq)
+            return false;
+        eq = this.isFooterLVisible() == vis.isFooterLVisible();
+        if (!eq)
+            return false;
+        eq = this.isFooterRVisible() == vis.isFooterRVisible();
+        if (!eq)
+            return false;
+        eq = this.isStarVisible() == vis.isStarVisible();
+        if (!eq)
+            return false;
 
-    public void setTitleString(boolean titleString) {
-        this.titleString = titleString;
-    }
-
-    public boolean isHeaderRString() {
-        return headerRString;
-    }
-
-    public void setHeaderRString(boolean headerRString) {
-        this.headerRString = headerRString;
-    }
-
-    public boolean isHeaderLString() {
-        return headerLString;
-    }
-
-    public void setHeaderLString(boolean headerLString) {
-        this.headerLString = headerLString;
-    }
-
-    public boolean isBodyString() {
-        return bodyString;
-    }
-
-    public void setBodyString(boolean bodyString) {
-        this.bodyString = bodyString;
-    }
-
-    public boolean isFooterRString() {
-        return footerRString;
-    }
-
-    public void setFooterRString(boolean footerRString) {
-        this.footerRString = footerRString;
-    }
-
-    public boolean isFooterLString() {
-        return footerLString;
-    }
-
-    public void setFooterLString(boolean footerLString) {
-        this.footerLString = footerLString;
+        eq = this.titleString == vis.titleString;
+        if (!eq)
+            return false;
+        eq = this.bodyString == vis.bodyString;
+        if (!eq)
+            return false;
+        eq = this.headerLString == vis.headerLString;
+        if (!eq)
+            return false;
+        eq = this.headerRString == vis.headerRString;
+        if (!eq)
+            return false;
+        eq = this.footerLString == vis.footerLString;
+        if (!eq)
+            return false;
+        eq = this.footerRString == vis.footerRString;
+        if (!eq)
+            return false;
+        return true;
     }
 
     public TagVisiblity() {

@@ -3,6 +3,7 @@ package service;
 
 import model.BaseModel;
 import model.GeneralModel;
+import model.TableTag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,4 +40,9 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
 
     public ArrayList<GeneralModel> generalModelAfter(Integer tableIx, Long id);
 
+    public ArrayList<TableTag> tableTags();
+
+    public void deleteById(long id);
+
+    public V findViewById(long id);
 }

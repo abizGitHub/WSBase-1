@@ -198,32 +198,32 @@ public class JsonUtil {
             e.printStackTrace();
         }
         try {
-            visiblity.setBodyString(jsonObject.getBoolean("S" + GeneralModel.BODY$));
+            visiblity.setBodyString(jsonObject.getInt("S" + GeneralModel.BODY$));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            visiblity.setTitleString(jsonObject.getBoolean("S" + GeneralModel.TITLE$));
+            visiblity.setTitleString(jsonObject.getInt("S" + GeneralModel.TITLE$));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            visiblity.setHeaderLString(jsonObject.getBoolean("S" + GeneralModel.HEADERL$));
+            visiblity.setHeaderLString(jsonObject.getInt("S" + GeneralModel.HEADERL$));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            visiblity.setHeaderRString(jsonObject.getBoolean("S" + GeneralModel.HEADERR$));
+            visiblity.setHeaderRString(jsonObject.getInt("S" + GeneralModel.HEADERR$));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            visiblity.setFooterLString(jsonObject.getBoolean("S" + GeneralModel.FOOTERL$));
+            visiblity.setFooterLString(jsonObject.getInt("S" + GeneralModel.FOOTERL$));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            visiblity.setFooterRString(jsonObject.getBoolean("S" + GeneralModel.FOOTERR$));
+            visiblity.setFooterRString(jsonObject.getInt("S" + GeneralModel.FOOTERR$));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -288,27 +288,27 @@ public class JsonUtil {
         } catch (JSONException e) {
         }
         try {
-            json.put("S" + GeneralModel.BODY$, visiblity.isBodyString());
+            json.put("S" + GeneralModel.BODY$, visiblity.getBodyString());
         } catch (JSONException e) {
         }
         try {
-            json.put("S" + GeneralModel.TITLE$, visiblity.isTitleString());
+            json.put("S" + GeneralModel.TITLE$, visiblity.getTitleString());
         } catch (JSONException e) {
         }
         try {
-            json.put("S" + GeneralModel.HEADERL$, visiblity.isHeaderLString());
+            json.put("S" + GeneralModel.HEADERL$, visiblity.getHeaderLString());
         } catch (JSONException e) {
         }
         try {
-            json.put("S" + GeneralModel.HEADERR$, visiblity.isHeaderRString());
+            json.put("S" + GeneralModel.HEADERR$, visiblity.getHeaderRString());
         } catch (JSONException e) {
         }
         try {
-            json.put("S" + GeneralModel.FOOTERL$, visiblity.isFooterLString());
+            json.put("S" + GeneralModel.FOOTERL$, visiblity.getFooterLString());
         } catch (JSONException e) {
         }
         try {
-            json.put("S" + GeneralModel.FOOTERR$, visiblity.isFooterRString());
+            json.put("S" + GeneralModel.FOOTERR$, visiblity.getFooterRString());
         } catch (JSONException e) {
         }
         return json;
@@ -418,6 +418,7 @@ public class JsonUtil {
     public static JSONObject parseUserAccount(UserAccount userAccount) {
         JSONObject json = new JSONObject();
         try {
+            json.put(Consts.ID, userAccount.getId());
             json.put(Consts.USERNAME, userAccount.getUserName());
             json.put(Consts.PASSWORD, userAccount.getPassword());
             json.put(Consts.PHONE, userAccount.getPhone());

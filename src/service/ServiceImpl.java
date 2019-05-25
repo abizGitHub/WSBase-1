@@ -3,6 +3,7 @@ package service;
 import model.BaseModel;
 import model.GMStruct;
 import model.GeneralModel;
+import model.TableTag;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -130,7 +131,7 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
 
     @Override
     public ArrayList<T> findByFilter(HashMap<String, Object> filter) {
-        return (ArrayList<T>) findGenericByFilter(filter, clavv);
+        return (ArrayList<T>) findGenericByFilter(filter, clazz);
     }
 
     private List findGenericByFilter(HashMap<String, Object> map, Class cl) {
@@ -178,11 +179,31 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
 
         query.append("TB.id as id FROM ");
         query.append(struct.getTableName());
-        query.append(" TB WHERE TB.id > " + id);
+        query.append(" TB WHERE TB.id > " + id + " ORDER BY TB.id desc");
         Session session = HibernateUtil.getSessionFactory().openSession();
         List list = session.createSQLQuery(query.toString().replace("TB.null", "null")).addEntity(GeneralModel.class).list();
         session.close();
         return (ArrayList<GeneralModel>) list;
+    }
+
+    @Override
+    public ArrayList<TableTag> tableTags() {
+        ServiceImpl<TableTag, TableTag> service = ServiceFactory.getInstance().o().get(TableTag.class);
+        return service.loadAll();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        T byId = findById(id);
+        delete(byId);
+    }
+
+    @Override
+    public V findViewById(long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        V v = (V) session.createQuery("from " + clavv.getName() + " p where p.id=" + id).uniqueResult();
+        session.close();
+        return v;
     }
 
     public Class getClazz() {

@@ -1,5 +1,6 @@
 package servlets;
 
+import model.TableTag;
 import model.TagVisiblity;
 import model.UserAccountLog;
 import service.ServiceFactory;
@@ -32,11 +33,10 @@ public class TagVisiblityServlet extends HttpServlet {
             resp.sendRedirect("/tagVisiblity.do");
             return;
         }
-        /*System.out.println(">>"+req.getParameter("t"));
-        req.setAttribute("t", req.getParameter("t"));
-        req.getRequestDispatcher("/tagVisiblity.jsp").forward(req, resp);*/
         ArrayList<TagVisiblity> list = manager.loadAll();
         req.setAttribute("list", list);
+        ArrayList<TableTag> tableTags = manager.tableTags();
+        req.setAttribute("tableTags", tableTags);
         req.getRequestDispatcher("/tagVisiblity.jsp").forward(req, resp);
     }
 
@@ -50,12 +50,12 @@ public class TagVisiblityServlet extends HttpServlet {
         vis.setHeaderLVisible(req.getParameter("headerLVisible").equals("true"));
         vis.setFooterRVisible(req.getParameter("footerRVisible").equals("true"));
         vis.setFooterLVisible(req.getParameter("footerLVisible").equals("true"));
-        vis.setTitleString(req.getParameter("titleString").equals("true"));
-        vis.setBodyString(req.getParameter("bodyString").equals("true"));
-        vis.setHeaderRString(req.getParameter("headerRString").equals("true"));
-        vis.setHeaderLString(req.getParameter("headerLString").equals("true"));
-        vis.setFooterRString(req.getParameter("footerRString").equals("true"));
-        vis.setFooterLString(req.getParameter("footerLString").equals("true"));
+        vis.setTitleString(Integer.parseInt(req.getParameter("titleString")));
+        vis.setBodyString(Integer.parseInt(req.getParameter("bodyString")));
+        vis.setHeaderRString(Integer.parseInt(req.getParameter("headerRString")));
+        vis.setHeaderLString(Integer.parseInt(req.getParameter("headerLString")));
+        vis.setFooterRString(Integer.parseInt(req.getParameter("footerRString")));
+        vis.setFooterLString(Integer.parseInt(req.getParameter("footerLString")));
         vis.setId(Long.parseLong(req.getParameter("id")));
         manager.save(vis);
     }

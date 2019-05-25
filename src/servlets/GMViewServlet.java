@@ -44,63 +44,63 @@ public class GMViewServlet extends HttpServlet {
         for (GeneralModel gm : list) {
             GeneralModel generalModel = new GeneralModel();
             generalModel.setId(gm.getId());
-            if (tag.isTitleString())
+            if (tag.getTitleString() == 0)
                 generalModel.setTitle(gm.getTitle());
             else {
                 filter.clear();
                 filter.put("tableId", tableIx);
                 filter.put("intValue", Integer.parseInt(gm.getTitle()));
-                filter.put("columnIx", GeneralModel.TITLE);
+                filter.put("columnIx", tag.getTitleString());
                 ModelMap mm = managerMdlMap.findByFilter(filter).get(0);
                 generalModel.setTitle(mm.getStringValue());
             }
-            if (tag.isBodyString())
+            if (tag.getBodyString() == 0)
                 generalModel.setBody(gm.getBody());
             else {
                 filter.clear();
                 filter.put("tableId", tableIx);
                 filter.put("intValue", Integer.parseInt(gm.getBody()));
-                filter.put("columnIx", GeneralModel.BODY);
+                filter.put("columnIx", tag.getBodyString());
                 ModelMap mm = managerMdlMap.findByFilter(filter).get(0);
                 generalModel.setBody(mm.getStringValue());
             }
-            if (tag.isHeaderRString())
+            if (tag.getHeaderRString() == 0)
                 generalModel.setHeaderR(gm.getHeaderR());
             else {
                 filter.clear();
                 filter.put("tableId", tableIx);
                 filter.put("intValue", Integer.parseInt(gm.getHeaderR()));
-                filter.put("columnIx", GeneralModel.HEADER_R);
+                filter.put("columnIx", tag.getHeaderRString());
                 ModelMap mm = managerMdlMap.findByFilter(filter).get(0);
                 generalModel.setHeaderR(mm.getStringValue());
             }
-            if (tag.isHeaderLString())
+            if (tag.getHeaderLString() == 0)
                 generalModel.setHeaderL(gm.getHeaderL());
             else {
                 filter.clear();
                 filter.put("tableId", tableIx);
                 filter.put("intValue", Integer.parseInt(gm.getHeaderL()));
-                filter.put("columnIx", GeneralModel.HEADER_L);
+                filter.put("columnIx", tag.getHeaderLString());
                 ModelMap mm = managerMdlMap.findByFilter(filter).get(0);
                 generalModel.setHeaderL(mm.getStringValue());
             }
-            if (tag.isFooterRString())
+            if (tag.getFooterRString() == 0)
                 generalModel.setFooterR(gm.getFooterR());
             else {
                 filter.clear();
                 filter.put("tableId", tableIx);
                 filter.put("intValue", Integer.parseInt(gm.getFooterR()));
-                filter.put("columnIx", GeneralModel.FOOTER_R);
+                filter.put("columnIx", tag.getFooterRString());
                 ModelMap mm = managerMdlMap.findByFilter(filter).get(0);
                 generalModel.setFooterR(mm.getStringValue());
             }
-            if (tag.isFooterLString())
+            if (tag.getFooterLString() == 0)
                 generalModel.setFooterL(gm.getFooterL());
             else {
                 filter.clear();
                 filter.put("tableId", tableIx);
                 filter.put("intValue", Integer.parseInt(gm.getFooterL()));
-                filter.put("columnIx", GeneralModel.FOOTER_L);
+                filter.put("columnIx", tag.getFooterLString());
                 ModelMap mm = managerMdlMap.findByFilter(filter).get(0);
                 generalModel.setFooterL(mm.getStringValue());
             }
@@ -108,6 +108,7 @@ public class GMViewServlet extends HttpServlet {
         }
         req.setAttribute("list", listView);
         req.setAttribute("tableIx", tableIx);
+        req.setAttribute("tag", tag);
         req.getRequestDispatcher("/gMView.jsp").forward(req, resp);
     }
 

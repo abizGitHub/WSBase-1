@@ -46,18 +46,18 @@ public class UserAccountController {
             if (loaded != null) {
                 if (user.getPassword() != null && loaded.getPassword() != null) {
                     if (user.getPassword().equals(loaded.getPassword())) {
-                        managerUserAccountLog.save(new UserAccountLog(loaded, UserAccountLog.REVIVED));
-                        return putResponse(Consts.USERNAMEREVIVED, 0);
+                        reviveUserAccount(user, loaded);
+                        return putResponse(Consts.USERNAMEREVIVED, loaded.getId());
                     } else {
                         return putResponse(Consts.USERNAMERESERVED, 0);
                     }
                 }
             } else {
-                System.out.println("register:" + user.getUserName() + "," + user.getPassword() + "," + user.getPhone() + "," + user.getEmail());
+                System.out.println("register:" + user.getUserName() + "," + user.getPassword() + "," + user.getPhone() + "," + user.getEmail() + "," + user.getId());
+                managerUserAccount.save(user);
+                managerUserAccountLog.save(new UserAccountLog(user, UserAccountLog.REGISTERED));
                 try {
-                    long userId = managerUserAccount.save(user);
-                    managerUserAccountLog.save(new UserAccountLog(user, UserAccountLog.REGISTERED));
-                    return putResponse(Consts.USERREGISTERED, userId);
+                    return putResponse(Consts.USERREGISTERED, user.getId());
                 } catch (Exception e) {
                     e.printStackTrace();
                     return putResponse(Consts.CANTREGISTERE, 0);
@@ -67,6 +67,51 @@ public class UserAccountController {
             e.printStackTrace();
         }
         return putResponse(Consts.CANTREGISTERE, 0);
+    }
+
+    private void reviveUserAccount(UserAccount user, UserAccount loaded) {
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put("userAccountId", user.getId());
+        filter.put("status", Group.REGISTERED);
+        ArrayList<UserToGroupView> regedsForUser = managerUserToGroup.findViewByFilter(filter);
+        filter.clear();
+        filter.put("userAccountId", user.getId());
+        ArrayList<UserToGroup> allGroup = managerUserToGroup.findByFilter(filter);
+        for (UserToGroup userToGroup : allGroup) {
+            managerUserToGroup.delete(userToGroup);
+        }
+        filter.clear();
+        for (UserToGroupView reg : regedsForUser) {
+            filter.put("userAccountId", loaded.getId());
+            filter.put("groupId", reg.getGroupId());
+            ArrayList<UserToGroup> list = managerUserToGroup.findByFilter(filter);
+            if (list != null && list.size() > 0) {
+                System.out.println("found :" + list.get(0).getGroupId());
+                //  alreadyExist
+                if (list.get(0).getStatus() == Group.ORDERED) {
+                    list.get(0).setStatus(Group.REGISTERED);
+                    managerUserToGroup.save(list.get(0));
+                }
+            } else {
+                UserToGroup userToGroup = new UserToGroup();
+                userToGroup.setGroupId(reg.getGroupId());
+                userToGroup.setUserAccountId(loaded.getId());
+                userToGroup.setStatus(Group.REGISTERED);
+                managerUserToGroup.save(userToGroup);
+            }
+        }
+        UserAccountLog deleteLog = new UserAccountLog(user, UserAccountLog.DELETEDBYREVIVE);
+        deleteLog.setUserAccountId(Consts.DELETEDUSER);
+        deleteLog.setDeletedUserAccountId(user.getId());
+        managerUserAccountLog.save(deleteLog);
+        filter.clear();
+        filter.put("userAccountId", user.getId());
+        ArrayList<UserAccountLog> logs = managerUserAccountLog.findByFilter(filter);
+        for (UserAccountLog log : logs) {
+            managerUserAccountLog.delete(log);
+        }
+        managerUserAccount.delete(user);
+        managerUserAccountLog.save(new UserAccountLog(loaded, UserAccountLog.REVIVED));
     }
 
     private UserAccount loadUserByName(String userName) {
@@ -128,21 +173,23 @@ public class UserAccountController {
             JSONObject reqJson = new JSONObject(strReq);
             Confiq reqCnf = JsonUtil.extractConfiq(reqJson);
             UserAccount loadedUser = null;
+            ArrayList<Integer> orderList = null;
+            ArrayList<Integer> registerList = null;
             if (reqCnf.getUserId() != null) loadedUser = managerUserAccount.findById(reqCnf.getUserId());
             if (loadedUser != null && loadedUser.getUserName().equals(reqCnf.getUserName())) {
-                JSONArray array = new JSONArray();
-                HashMap<String, Object> filter = new HashMap<>();
-                filter.put("tableId", tableIx);
-                ArrayList<Group> groups = managerGroup.findByFilter(filter);
-                for (Group group : groups) {
-                    array.put(JsonUtil.parseGr(group));
-                }
-                ArrayList<Integer> orderList = loadGroupForUserByStatus(loadedUser.getId(), Group.ORDERED, tableIx);
-                ArrayList<Integer> registerList = loadGroupForUserByStatus(loadedUser.getId(), Group.REGISTERED, tableIx);
-                jsonObject.put(Group.ORDERED$, orderList);
-                jsonObject.put(Group.REGISTERED$, registerList);
-                jsonObject.put("groupList", array);
+                orderList = loadGroupForUserByStatus(loadedUser.getId(), Group.ORDERED, tableIx);
+                registerList = loadGroupForUserByStatus(loadedUser.getId(), Group.REGISTERED, tableIx);
             }
+            JSONArray array = new JSONArray();
+            HashMap<String, Object> filter = new HashMap<>();
+            filter.put("tableId", tableIx);
+            ArrayList<Group> groups = managerGroup.findByFilter(filter);
+            for (Group group : groups) {
+                array.put(JsonUtil.parseGr(group));
+            }
+            jsonObject.put(Group.ORDERED$, orderList);
+            jsonObject.put(Group.REGISTERED$, registerList);
+            jsonObject.put("groupList", array);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -168,16 +215,17 @@ public class UserAccountController {
     @Produces(MediaType.APPLICATION_JSON)
     public JSONObject orderGroup(String strReq) {
         JSONObject jsonObject = new JSONObject();
-        System.out.println( "groups>" + strReq);
+        System.out.println("groups>" + strReq);
         try {
             JSONObject reqJson = new JSONObject(strReq);
             Confiq reqCnf = JsonUtil.extractConfiq(reqJson);
+            Integer tableIx = reqJson.getInt(Consts.TABLEID);
             UserAccount loadedUser = managerUserAccount.findById(reqCnf.getUserId());
             if (loadedUser != null && loadedUser.getUserName().equals(reqCnf.getUserName())) {
                 ArrayList<Integer> reqOrderGroup = JsonUtil.extractGroupIds(reqJson, Group.ORDERED$);
                 if (reqOrderGroup != null && reqOrderGroup.size() > 0)
                     try {
-                        orderGroupsForUser(reqOrderGroup, loadedUser.getId());
+                        orderGroupsForUser(reqOrderGroup, loadedUser.getId(), tableIx);
                     } catch (Exception e) {
                         e.printStackTrace();
                         jsonObject.put("response", 0);
@@ -191,13 +239,39 @@ public class UserAccountController {
         return jsonObject;
     }
 
-    private void orderGroupsForUser(ArrayList<Integer> reqOrderGroup, long userId) {
+    @POST
+    @Path("/deleteOrderGroup")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public JSONObject deleteOrderGroup(String strReq) {
+        JSONObject jsonObject = new JSONObject();
+        System.out.println("del>" + strReq);
+        try {
+            JSONObject reqJson = new JSONObject(strReq);
+            Confiq reqCnf = JsonUtil.extractConfiq(reqJson);
+            UserAccount loadedUser = managerUserAccount.findById(reqCnf.getUserId());
+            if (loadedUser != null && loadedUser.getUserName().equals(reqCnf.getUserName())) {
+                Integer tableIx = reqJson.getInt(Consts.TABLEID);
+                if (tableIx != null && tableIx > 0) {
+                    delOrderGroupExceptThis(null, reqCnf.getUserId(), tableIx);
+                    jsonObject.put("response", Group.ORDERED$);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private void orderGroupsForUser(ArrayList<Integer> reqOrderGroup, long userId, int tableIx) {
+        delOrderGroupExceptThis(reqOrderGroup, userId, tableIx);
         HashMap<String, Object> filter = new HashMap<>();
         for (Integer ord : reqOrderGroup) {
             filter.put("userAccountId", userId);
             filter.put("groupId", ord);
             ArrayList<UserToGroup> list = managerUserToGroup.findByFilter(filter);
             if (list != null && list.size() > 0) {
+                System.out.println("found :" + list.get(0).getGroupId());
                 //  alreadyExist
             } else {
                 UserToGroup userToGroup = new UserToGroup();
@@ -205,6 +279,28 @@ public class UserAccountController {
                 userToGroup.setUserAccountId(userId);
                 userToGroup.setStatus(Group.ORDERED);
                 managerUserToGroup.save(userToGroup);
+            }
+        }
+    }
+
+    private void delOrderGroupExceptThis(ArrayList<Integer> reqOrderGroup, long userId, int tableIx) {
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put("tableId", tableIx);
+        filter.put("userAccountId", userId);
+        filter.put("status", Group.ORDERED);
+        ArrayList<UserToGroupView> viewByFilter = managerUserToGroup.findViewByFilter(filter);
+        if (viewByFilter != null && viewByFilter.size() > 0) {
+            for (UserToGroupView groupView : viewByFilter) {
+                boolean del = true;
+                if (reqOrderGroup != null && reqOrderGroup.size() > 0)
+                    for (Integer ord : reqOrderGroup) {
+                        if (groupView.getGroupId() == ord.longValue()) {
+                            del = false;
+                            break;
+                        }
+                    }
+                if (del)
+                    managerUserToGroup.deleteById(groupView.getId());
             }
         }
     }

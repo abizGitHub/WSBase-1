@@ -10,13 +10,16 @@ public class UserAccountLog extends BaseModel {
     private Date lastConnectDate;
     private Time lastConnectTime;
     private Integer logType;
-    public static int REGISTERED = 1;
-    public static int REVIVED = 2;
-    public static int MODELMAPUPDATED = 3;
-    public static int GROUPUPDATED = 4;
-    public static int PERMISSIONUPDATED = 5;
-    public static int USERUPDATED = 6;
-    public static int CONFIQUPDATED = 7;
+    public static int FIRSTRUN = 3;
+    public static int REGISTERED = 4;
+    public static int REVIVED = 5;
+    public static int MODELMAPUPDATED = 6;
+    public static int GROUPUPDATED = 7;
+    public static int PERMISSIONUPDATED = 8;
+    public static int USERUPDATED = 9;
+    public static int CONFIQUPDATED = 10;
+    public static int DELETEDBYREVIVE= 11;
+    private Long deletedUserAccountId;
 
 
     public UserAccountLog(UserAccount user, int type) {
@@ -67,5 +70,13 @@ public class UserAccountLog extends BaseModel {
 
     public void setLastConnectTime(Time lastConnectTime) {
         this.lastConnectTime = lastConnectTime;
+    }
+
+    public Long getDeletedUserAccountId() {
+        return deletedUserAccountId;
+    }
+
+    public void setDeletedUserAccountId(Long deletedUserAccountId) {
+        this.deletedUserAccountId = deletedUserAccountId;
     }
 }

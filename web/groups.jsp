@@ -1,4 +1,3 @@
-<%@ page import="oracle.jdbc.driver.Const" %>
 <%@ page import="util.Consts" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 

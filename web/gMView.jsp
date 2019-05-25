@@ -13,10 +13,11 @@
 <jsp:include page="header.jsp"/>
 <br/>
 <br/>
+<c:set var="tag" value="${requestScope.tag}"/>
 <table border="true" style="text-align: center; width : 100%">
     <tr>
         <td></td>
-        <td>id</td>
+        <td>id (star)</td>
         <td>title</td>
         <td>headerL</td>
         <td>headerR</td>
@@ -27,13 +28,13 @@
     <c:forEach var="item" items="${requestScope.list}" varStatus="x">
         <tr>
             <td>${x.count}</td>
-            <td>${item.id}</td>
-            <td>${item.title}</td>
-            <td>${item.headerL}</td>
-            <td>${item.headerR}</td>
-            <td>${item.body}</td>
-            <td>${item.footerL}</td>
-            <td>${item.footerR}</td>
+            <td ${tag.starVisible ? 'style="background-color: yellow"': ''} >${item.id}</td>
+            <td ${tag.titleVisible ? 'style="background-color: yellow"': ''}>${item.title}</td>
+            <td ${tag.headerLVisible ? 'style="background-color: yellow"': ''}>${item.headerL}</td>
+            <td ${tag.headerRVisible ? 'style="background-color: yellow"': ''}>${item.headerR}</td>
+            <td ${tag.bodyVisible ? 'style="background-color: yellow"': ''}>${item.body}</td>
+            <td ${tag.footerLVisible ? 'style="background-color: yellow"': ''}>${item.footerL}</td>
+            <td ${tag.footerRVisible ? 'style="background-color: yellow"': ''}>${item.footerR}</td>
         </tr>
     </c:forEach>
 </table>

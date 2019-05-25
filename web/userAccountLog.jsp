@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="model.UserAccountLog" %>
 
 
 <%--
@@ -24,26 +25,39 @@
 <br/>
 <table border="1" style="text-align: center;width : 100%">
     <tr>
-        <td> x </td>
-        <td> userAccountId </td>
-        <td> userName </td>
-        <td> hasPermission </td>
-        <td> lastConnectDate </td>
-        <td> lastConnectTime </td>
-        <td> logType </td>
+        <td> x</td>
+        <td> userAccountId</td>
+        <td> userName</td>
+        <td> hasPermission</td>
+        <td> lastConnectDate</td>
+        <td> lastConnectTime</td>
+        <td> logType</td>
     </tr>
     <c:forEach var="item" items="${ualog}" varStatus="x">
         <tr>
             <td>${x.count}</td>
             <td>${item.userAccountId}</td>
             <td>${item.userName}</td>
-            <td>${item.hasPermission}</td>
+            <td>${item.hasPermission}<c:if test="${item.deletedUserAccountId != null}">
+                dltdUsrAcntId:${item.deletedUserAccountId}
+                </c:if></td>
             <td>${item.lastConnectDate}</td>
             <td>${item.lastConnectTime}</td>
-            <td>${item.logType}</td>
+            <td><select value="${item.logType}">
+                <option value="${UserAccountLog.FIRSTRUN}">FIRST RUN</option>
+                <option value="${UserAccountLog.REGISTERED}">REGISTERED</option>
+                <option value="${UserAccountLog.REVIVED}">REVIVED</option>
+                <option value="${UserAccountLog.MODELMAPUPDATED}">MODELMAP UPDATED</option>
+                <option value="${UserAccountLog.GROUPUPDATED}">GROUP UPDATED</option>
+                <option value="${UserAccountLog.PERMISSIONUPDATED}">PERMISSION UPDATED</option>
+                <option value="${UserAccountLog.USERUPDATED}">USER UPDATED</option>
+                <option value="${UserAccountLog.CONFIQUPDATED}">CONFIQ UPDATED</option>
+                <option value="${UserAccountLog.DELETEDBYREVIVE}">DELETED BY REVIVE</option>
+            </select></td>
         </tr>
     </c:forEach>
 </table>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
 

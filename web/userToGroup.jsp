@@ -25,6 +25,8 @@
 <table border="1" style="text-align: center;width : 100%">
     <tr>
         <td> x</td>
+        <td> Id</td>
+        <td> tableId</td>
         <td> userAccountId</td>
         <td> userName</td>
         <td> groupId</td>
@@ -35,8 +37,10 @@
     <c:forEach var="item" items="${ualog}" varStatus="x">
         <tr>
             <td>${x.count}</td>
-            <td>${item.userName}</td>
+            <td>${item.id}</td>
+            <td>${item.tableId}</td>
             <td>${item.userAccountId}</td>
+            <td>${item.userName}</td>
             <td>${item.groupId}</td>
             <td>${item.groupName}</td>
             <td>${item.status}</td>

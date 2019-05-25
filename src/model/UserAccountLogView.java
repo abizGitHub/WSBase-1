@@ -11,6 +11,7 @@ public class UserAccountLogView extends BaseModel {
     private Time lastConnectTime;
     private Integer logType;
     private String userName;
+    private Long deletedUserAccountId;
 
     public long getUserAccountId() {
         return userAccountId;
@@ -61,5 +62,13 @@ public class UserAccountLogView extends BaseModel {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Long getDeletedUserAccountId() {
+        return deletedUserAccountId;
+    }
+
+    public void setDeletedUserAccountId(Long deletedUserAccountId) {
+        this.deletedUserAccountId = deletedUserAccountId;
     }
 }

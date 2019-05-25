@@ -30,7 +30,6 @@ public class UserAccountServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ArrayList<UserAccount> list = manager.loadAll();
         req.setAttribute("list", list);
-        System.out.println(list.get(0));
         req.getRequestDispatcher("/userAccount.jsp").forward(req, resp);
     }
 

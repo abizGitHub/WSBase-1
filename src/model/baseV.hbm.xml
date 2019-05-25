@@ -25,6 +25,9 @@
         <property name="userName" type="java.lang.String">
             <column name="userName" sql-type="NVARCHAR2(30)"/>
         </property>
+        <property name="deletedUserAccountId" type="java.lang.Long">
+            <column name="deletedUserAccountId" sql-type="NUMBER"/>
+        </property>
     </class>
 
     <class name="UserToGroupView" table="UserToGroupView">

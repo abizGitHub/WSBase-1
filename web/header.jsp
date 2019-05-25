@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Title</title>
+    <script rel="script" src="js/jquery-3.3.1.js"></script>
 </head>
 <body>
 <table style="width: 60%;height: 10%">
@@ -41,6 +42,8 @@
         <td><a href="/gMView.do?tableIx=1">General Model View 1</a>
         </td>
         <td><a href="/gMView.do?tableIx=2">General Model View 2</a>
+        </td>
+        <td><a href="/portal.do">Portal</a>
         </td>
     </tr>
 </table>
