@@ -74,9 +74,7 @@ public class UserAccountController {
         filter.put("userAccountId", user.getId());
         filter.put("status", Group.REGISTERED);
         ArrayList<UserToGroupView> regedsForUser = managerUserToGroup.findViewByFilter(filter);
-        filter.clear();
-        filter.put("userAccountId", user.getId());
-        ArrayList<UserToGroup> allGroup = managerUserToGroup.findByFilter(filter);
+        ArrayList<UserToGroup> allGroup = managerUserToGroup.findByAccountId(user.getId());
         for (UserToGroup userToGroup : allGroup) {
             managerUserToGroup.delete(userToGroup);
         }
@@ -104,9 +102,7 @@ public class UserAccountController {
         deleteLog.setUserAccountId(Consts.DELETEDUSER);
         deleteLog.setDeletedUserAccountId(user.getId());
         managerUserAccountLog.save(deleteLog);
-        filter.clear();
-        filter.put("userAccountId", user.getId());
-        ArrayList<UserAccountLog> logs = managerUserAccountLog.findByFilter(filter);
+        ArrayList<UserAccountLog> logs = managerUserAccountLog.findByAccountId(user.getId());
         for (UserAccountLog log : logs) {
             managerUserAccountLog.delete(log);
         }
@@ -148,6 +144,7 @@ public class UserAccountController {
             if (valid) {
                 UserAccount loaded = managerUserAccount.findById(user.getId());
                 if (loaded.getUserName().equals(user.getUserName())) {
+                    user.setHasPermission(loaded.getHasPermission());
                     managerUserAccount.save(user);
                     managerUserAccountLog.save(new UserAccountLog(user, UserAccountLog.USERUPDATED));
                     System.out.println("updatedUser:" + user.getUserName() + "," + user.getPassword() + "," + user.getPhone() + "," + user.getEmail());

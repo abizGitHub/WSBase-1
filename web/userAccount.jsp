@@ -1,4 +1,5 @@
 <%@ page import="util.Consts" %>
+<%@ page import="model.UserAccountLog" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -30,9 +31,10 @@
         <td> password</td>
         <td> email</td>
         <td> phone</td>
-        <td> id </td>
-        <td> group </td>
-        <td> log </td>
+        <td> id</td>
+        <td> group</td>
+        <td> log</td>
+        <td> grant Permission</td>
     </tr>
     <c:set var="ua" value="${requestScope.list}"/>
     <c:forEach var="item" items="${ua}" varStatus="x">
@@ -45,10 +47,34 @@
             <td>${item.id}</td>
             <td><a href="userToGroup.do?${Consts.USERACCOUNTID}=${item.id}">requested Groups</a></td>
             <td><a href="userAccountLog.do?${Consts.USERACCOUNTID}=${item.id}">user log</a></td>
+            <td>
+                <c:if test="${!item.hasPermission}">
+                    <form action="userAccounts.do">
+                        <input type="hidden" value="${item.id}" name="${Consts.USERACCOUNTID}"/>
+                        <input type="hidden" value="${UserAccountLog.PERMISSIONUPDATED}" name="${Consts.METHOD}"/>
+                        <select name="permissionDays" value="${item.permissionDays}">
+                            <option value="31">one Month</option>
+                            <option value="61">two Month</option>
+                            <option value="91">three Month</option>
+                            <option value="186">six Month</option>
+                        </select>
+                        <input type="submit" value="grant permission"/>
+                    </form>
+                </c:if>
+                <c:if test="${item.hasPermission && item.permissionDays>0}">
+                    <select value="${item.permissionDays}">
+                        <option value="31">one Month</option>
+                        <option value="61">two Month</option>
+                        <option value="91">three Month</option>
+                        <option value="186">six Month</option>
+                    </select>
+                </c:if>
+            </td>
         </tr>
     </c:forEach>
 </table>
 <br/>
+<jsp:include page="footer.jsp"/>
 </body>
 </html>
 

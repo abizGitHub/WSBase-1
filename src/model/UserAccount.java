@@ -10,6 +10,8 @@ public class UserAccount extends BaseModel{
     private String password ;
     private String phone ;
     private String email ;
+    private Boolean hasPermission;
+    private Integer permissionDays;
 
     public String getUserName() {
         return userName;
@@ -43,4 +45,19 @@ public class UserAccount extends BaseModel{
         this.email = email;
     }
 
+    public Boolean getHasPermission() {
+        return hasPermission;
+    }
+
+    public void setHasPermission(Boolean hasPermission) {
+        this.hasPermission = hasPermission;
+    }
+
+    public Integer getPermissionDays() {
+        return permissionDays;
+    }
+
+    public void setPermissionDays(Integer permissionDays) {
+        this.permissionDays = permissionDays;
+    }
 }

@@ -70,6 +70,10 @@ public class GetGeneralModel {
             Confiq confiq = new Confiq();
             if (loaded != null) {
                 confiq.setHasUserPermision(true);
+                HashMap<String, Object> filter = new HashMap<>();
+                filter.put("userAccountId", loaded.getId());
+                Boolean hasPermission = managerUserAccountLog.findLastByFilter(filter).getHasPermission();
+                confiq.setHasUserPermision(hasPermission);
                 confiq.setConnectPeriod(PortalServlet.portalConfiq.getConnectPeriod());
                 confiq.setWait4Server(PortalServlet.portalConfiq.getWait4Server());
                 confiq.setHaveNewChange(PortalServlet.portalConfiq.getHaveNewChange());
@@ -96,7 +100,6 @@ public class GetGeneralModel {
             confiq.setSendDetail(PortalServlet.portalConfiq.getSendDetail());
             confiq.setLastTablesName(PortalServlet.portalConfiq.getLastTableNames());
             confiq.setUpdateGroup(PortalServlet.portalConfiq.getUpdateGroup());
-            confiq.setHasUserPermision(false);
             confiq.setLastIds(PortalServlet.portalConfiq.getLastIds());
             confiq.setLastModelMap(GeneralServiceImpl.getInstance().getModelMapAfter(reqCnf.getLastModelMapId()));
             confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(reqCnf.getLastModelMapId()));

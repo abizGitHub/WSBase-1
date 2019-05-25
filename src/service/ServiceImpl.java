@@ -6,6 +6,7 @@ import model.GeneralModel;
 import model.TableTag;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import util.Consts;
 import util.HibernateUtil;
 
 import java.util.ArrayList;
@@ -128,6 +129,16 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
         return (ArrayList<V>) findGenericByFilter(filter, clavv);
     }
 
+    @Override
+    public T findLastByFilter(HashMap<String, Object> filter) {
+        return (T) findLastGenericByFilter(filter, clazz);
+    }
+
+    @Override
+    public V findLastViewByFilter(HashMap<String, Object> filter) {
+        return (V) findLastGenericByFilter(filter, clavv);
+    }
+
 
     @Override
     public ArrayList<T> findByFilter(HashMap<String, Object> filter) {
@@ -155,6 +166,29 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
                         .list();
         session.close();
         return list;
+    }
+
+    private Object findLastGenericByFilter(HashMap<String, Object> map, Class cl) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        StringBuffer sql = new StringBuffer("from " + cl.getName() + " p");
+        if (map.size() > 0) {
+            sql.append(" where 1=1 ");
+            for (String key : map.keySet()) {
+                Object param = map.get(key);
+                if (param instanceof String) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append("'").append(param).append("'");
+                } else if (param instanceof Number) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append(param);
+                }
+            }
+            sql.append(" and rownum = 1");
+        }
+        Object o = session.createQuery(sql.toString() + " order by p.id desc")
+                .uniqueResult();
+        session.close();
+        return o;
     }
 
     @Override
@@ -204,6 +238,20 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
         V v = (V) session.createQuery("from " + clavv.getName() + " p where p.id=" + id).uniqueResult();
         session.close();
         return v;
+    }
+
+    @Override
+    public T findLastByAccountId(long id) {
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put(Consts.USERACCOUNTID, id);
+        return findLastByFilter(filter);
+    }
+
+    @Override
+    public ArrayList<T> findByAccountId(long id) {
+        HashMap<String, Object> filter = new HashMap<>();
+        filter.put(Consts.USERACCOUNTID, id);
+        return findByFilter(filter);
     }
 
     public Class getClazz() {

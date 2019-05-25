@@ -46,6 +46,12 @@
         <property name="userName" type="java.lang.String">
             <column name="userName" sql-type="NVARCHAR2(30)"/>
         </property>
+        <property name="hasPermission" type="java.lang.Boolean">
+            <column name="hasPermission" sql-type="NUMBER(1)"/>
+        </property>
+        <property name="permissionDays" type="java.lang.Integer">
+            <column name="permissionDays" sql-type="NUMBER(3)"/>
+        </property>
     </class>
 
     <class name="UserAccountLog" table="UserAccountLog">

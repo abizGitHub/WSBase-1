@@ -38,6 +38,10 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
 
     public ArrayList<V> findViewByFilter(HashMap<String, Object> filter);
 
+    public M findLastByFilter(HashMap<String, Object> filter);
+
+    public V findLastViewByFilter(HashMap<String, Object> filter);
+
     public ArrayList<GeneralModel> generalModelAfter(Integer tableIx, Long id);
 
     public ArrayList<TableTag> tableTags();
@@ -45,4 +49,8 @@ public interface ServiceTemplate<M extends BaseModel, V extends BaseModel> {
     public void deleteById(long id);
 
     public V findViewById(long id);
+
+    public M findLastByAccountId(long id);
+
+    public ArrayList<M> findByAccountId(long id);
 }

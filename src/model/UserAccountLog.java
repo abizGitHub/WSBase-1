@@ -18,7 +18,7 @@ public class UserAccountLog extends BaseModel {
     public static int PERMISSIONUPDATED = 8;
     public static int USERUPDATED = 9;
     public static int CONFIQUPDATED = 10;
-    public static int DELETEDBYREVIVE= 11;
+    public static int DELETEDBYREVIVE = 11;
     private Long deletedUserAccountId;
 
 
@@ -27,6 +27,14 @@ public class UserAccountLog extends BaseModel {
         this.lastConnectDate = new Date();
         this.lastConnectTime = new Time(new Date().getTime());
         this.logType = type;
+        this.hasPermission = user.getHasPermission();
+    }
+
+    public UserAccountLog(Integer logType, long userAccountId) {
+        this.logType = logType;
+        this.lastConnectDate = new Date();
+        this.lastConnectTime = new Time(new Date().getTime());
+        this.userAccountId = userAccountId;
     }
 
     public long getUserAccountId() {
