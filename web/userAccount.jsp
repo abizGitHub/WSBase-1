@@ -35,6 +35,7 @@
         <td> group</td>
         <td> log</td>
         <td> grant Permission</td>
+        <td> inbox-outbox</td>
     </tr>
     <c:set var="ua" value="${requestScope.list}"/>
     <c:forEach var="item" items="${ua}" varStatus="x">
@@ -70,6 +71,7 @@
                     </select>
                 </c:if>
             </td>
+            <td><a href="message.do?${Consts.USERACCOUNTID}=${item.id}&${Consts.USERNAME}=${item.userName}">message</a></td>
         </tr>
     </c:forEach>
 </table>

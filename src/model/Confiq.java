@@ -24,6 +24,7 @@ public class Confiq {
 
     public static final String WAIT4SERVER = "wait4Server";
     public static final String CONNECTPERIOD = "connectPeriod";
+    public static String LASTMSGID = "lastMsgId";
 
     ArrayList<Integer> lastGroupIds;
     Boolean updateGroup;
@@ -45,6 +46,7 @@ public class Confiq {
     Boolean sendDetail;
     Integer wait4Server;
     Integer connectPeriod;
+    Long lastMsgIsd;
 
     public String getUserName() {
         return userName;
@@ -172,5 +174,13 @@ public class Confiq {
 
     public void setConnectPeriod(Integer connectPeriod) {
         this.connectPeriod = connectPeriod;
+    }
+
+    public Long getLastMsgIsd() {
+        return lastMsgIsd;
+    }
+
+    public void setLastMsgIsd(Long lastMsgIsd) {
+        this.lastMsgIsd = lastMsgIsd;
     }
 }

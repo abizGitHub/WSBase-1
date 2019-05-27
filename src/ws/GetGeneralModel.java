@@ -27,6 +27,7 @@ public class GetGeneralModel {
     ServiceImpl<ModelMap, ModelMap> managerModelMap;
     ServiceImpl<Group, Group> managerGroup;
     ServiceImpl<UserToGroup, UserToGroupView> managerUserToGroup;
+    ServiceImpl<Message, Message> managerMessage;
 
     public GetGeneralModel() {
         managerUserAccountLog = ServiceFactory.getInstance().o().get(UserAccountLog.class);
@@ -35,6 +36,7 @@ public class GetGeneralModel {
         managerModelMap = ServiceFactory.getInstance().o().get(ModelMap.class);
         managerGroup = ServiceFactory.getInstance().o().get(Group.class);
         managerUserToGroup = ServiceFactory.getInstance().o().get(UserToGroup.class);
+        managerMessage = ServiceFactory.getInstance().o().get(Message.class);
     }
 
 
@@ -77,6 +79,10 @@ public class GetGeneralModel {
                 confiq.setConnectPeriod(PortalServlet.portalConfiq.getConnectPeriod());
                 confiq.setWait4Server(PortalServlet.portalConfiq.getWait4Server());
                 confiq.setHaveNewChange(PortalServlet.portalConfiq.getHaveNewChange());
+                filter.put("type", Message.SENT);
+                Message lastMsg = managerMessage.findLastByFilter(filter);
+                if (lastMsg != null)
+                    confiq.setLastMsgIsd(lastMsg.getId());
             } else if (reqCnf.getUserId() == Consts.NEWUSERID) {
                 if (reqCnf.getUserName() == null || !reqCnf.getUserName().contains("-"))
                     return jsonResponse;

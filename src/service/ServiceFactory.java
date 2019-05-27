@@ -32,6 +32,7 @@ public class ServiceFactory {
         ServiceImpl<GMStruct, GMStruct> gMStructService = new ServiceImpl<GMStruct, GMStruct>(GMStruct.class, GMStruct.class);
         ServiceImpl<TableTag, TableTag> tableTagService = new ServiceImpl<TableTag, TableTag>(TableTag.class, TableTag.class);
         ServiceImpl<PortalConfiq, PortalConfiq> portalConfiqService = new ServiceImpl<PortalConfiq, PortalConfiq>(PortalConfiq.class, PortalConfiq.class);
+        ServiceImpl<Message, Message> messageService = new ServiceImpl<Message, Message>(Message.class, Message.class);
 
         services.put(Auction.class, auctionService);
         services.put(City.class, cityService);
@@ -47,6 +48,7 @@ public class ServiceFactory {
         services.put(GMStruct.class, gMStructService);
         services.put(TableTag.class, tableTagService);
         services.put(PortalConfiq.class, portalConfiqService);
+        services.put(Message.class, messageService);
     }
 
     public HashMap<Class<? extends BaseModel>, ServiceImpl> o() {

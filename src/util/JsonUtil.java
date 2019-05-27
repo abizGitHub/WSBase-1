@@ -92,6 +92,10 @@ public class JsonUtil {
         } catch (Exception e) {
         }
         try {
+            confiq.setLastMsgIsd(json.getLong(Confiq.LASTMSGID));
+        } catch (Exception e) {
+        }
+        try {
             confiq.setUserName(json.getString(Confiq.USERNAME));
         } catch (Exception e) {
         }
@@ -370,6 +374,10 @@ public class JsonUtil {
         } catch (JSONException e) {
         }
         try {
+            json.put(Confiq.LASTMSGID, confiq.getLastMsgIsd());
+        } catch (JSONException e) {
+        }
+        try {
             json.put(Confiq.USERNAME, confiq.getUserName());
         } catch (JSONException e) {
         }
@@ -478,4 +486,55 @@ public class JsonUtil {
         }
         return json;
     }
+
+    public static JSONArray parseMsgs(ArrayList<Message> messages) {
+        JSONArray array = new JSONArray();
+        for (Message message : messages) {
+            array.put(parseMsg(message));
+        }
+        return array;
+    }
+
+    private static JSONObject parseMsg(Message message) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put(Consts.ID, message.getId());
+            json.put("MSGID",message.getMsgId());
+            json.put("BODY", message.getBody());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    public static ArrayList<Message> extractReceiptMsg(JSONObject json) {
+        ArrayList<Message> list = new ArrayList<>();
+        try {
+            JSONArray array = json.getJSONArray(Consts.MESSAGELIST);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = (JSONObject) array.get(i);
+                Message msg = new Message();
+                msg.setMsgId(object.getLong(Consts.ID));
+                msg.setBody(object.get("BODY").toString());
+                list.add(msg);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static ArrayList<Integer> extractReceiptMsgIds(JSONObject json) {
+        ArrayList<Integer> list = new ArrayList<>();
+        try {
+            JSONArray array = json.getJSONArray(Message.MSGIDS);
+            for (int i = 0; i < array.length(); i++) {
+                list.add(array.getInt(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 }

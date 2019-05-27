@@ -45,6 +45,8 @@
         </td>
         <td><a href="/portal.do">Portal</a>
         </td>
+        <td><a href="/message.do">Message</a>
+        </td>
     </tr>
 </table>
 </body>

@@ -14,6 +14,8 @@ public class Rater implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        servletRequest.setCharacterEncoding("UTF-8");
+        servletResponse.setCharacterEncoding("UTF-8");
         try {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             Object attribute = request.getSession().getAttribute("XX");

@@ -19,7 +19,7 @@
     </filter>
     <filter-mapping>
         <filter-name>rater</filter-name>
-        <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <servlet-mapping>
         <servlet-name>Jersey_REST_Service</servlet-name>

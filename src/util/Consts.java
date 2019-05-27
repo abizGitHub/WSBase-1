@@ -52,5 +52,6 @@ public class Consts {
     public static final String USERACCOUNTID = "userAccountId";
     public static final String METHOD = "actionMethod";
     public static final String LOAD = "load";
+    public static final String MESSAGELIST = "messageList";
 
 }

@@ -24,6 +24,7 @@ public class UserAccountController {
     ServiceImpl<ModelMap, ModelMap> managerModelMap;
     ServiceImpl<Group, Group> managerGroup;
     ServiceImpl<UserToGroup, UserToGroupView> managerUserToGroup;
+    ServiceImpl<Message, Message> managerMessage;
 
     public UserAccountController() {
         managerUserAccountLog = ServiceFactory.getInstance().o().get(UserAccountLog.class);
@@ -32,6 +33,7 @@ public class UserAccountController {
         managerModelMap = ServiceFactory.getInstance().o().get(ModelMap.class);
         managerGroup = ServiceFactory.getInstance().o().get(Group.class);
         managerUserToGroup = ServiceFactory.getInstance().o().get(UserToGroup.class);
+        managerMessage = ServiceFactory.getInstance().o().get(Message.class);
     }
 
     @POST
@@ -70,6 +72,32 @@ public class UserAccountController {
     }
 
     private void reviveUserAccount(UserAccount user, UserAccount loaded) {
+        reviveGroups(user, loaded);
+        //reviveMessages(user, loaded);
+        UserAccountLog deleteLog = new UserAccountLog(user, UserAccountLog.DELETEDBYREVIVE);
+        deleteLog.setUserAccountId(Consts.DELETEDUSER);
+        deleteLog.setDeletedUserAccountId(user.getId());
+        managerUserAccountLog.save(deleteLog);
+        ArrayList<UserAccountLog> logs = managerUserAccountLog.findByAccountId(user.getId());
+        for (UserAccountLog log : logs) {
+            managerUserAccountLog.delete(log);
+        }
+        managerUserAccount.delete(user);
+        managerUserAccountLog.save(new UserAccountLog(loaded, UserAccountLog.REVIVED));
+    }
+
+    private void reviveMessages(UserAccount user, UserAccount loaded) {
+        ArrayList<Message> userMessages = managerMessage.findByAccountId(user.getId());
+        for (Message userMessage : userMessages) {
+            userMessage.setUserAccountId(loaded.getId());
+            managerMessage.save(userMessage);
+        }
+        for (Message userMessage : userMessages) {
+            managerMessage.delete(userMessage);
+        }
+    }
+
+    private void reviveGroups(UserAccount user, UserAccount loaded) {
         HashMap<String, Object> filter = new HashMap<>();
         filter.put("userAccountId", user.getId());
         filter.put("status", Group.REGISTERED);
@@ -98,16 +126,6 @@ public class UserAccountController {
                 managerUserToGroup.save(userToGroup);
             }
         }
-        UserAccountLog deleteLog = new UserAccountLog(user, UserAccountLog.DELETEDBYREVIVE);
-        deleteLog.setUserAccountId(Consts.DELETEDUSER);
-        deleteLog.setDeletedUserAccountId(user.getId());
-        managerUserAccountLog.save(deleteLog);
-        ArrayList<UserAccountLog> logs = managerUserAccountLog.findByAccountId(user.getId());
-        for (UserAccountLog log : logs) {
-            managerUserAccountLog.delete(log);
-        }
-        managerUserAccount.delete(user);
-        managerUserAccountLog.save(new UserAccountLog(loaded, UserAccountLog.REVIVED));
     }
 
     private UserAccount loadUserByName(String userName) {

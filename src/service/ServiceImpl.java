@@ -134,6 +134,15 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
         return (T) findLastGenericByFilter(filter, clazz);
     }
 
+
+    public ArrayList<T> findByFilterAndQuery(HashMap<String, Object> filter, String clause) {
+        return (ArrayList<T>) findGenericByFilterAndQuery(filter, clazz, clause);
+    }
+
+    public ArrayList<V> findViewByFilterAndQuery(HashMap<String, Object> filter, String clause) {
+        return (ArrayList<V>) findGenericByFilterAndQuery(filter, clavv, clause);
+    }
+
     @Override
     public V findLastViewByFilter(HashMap<String, Object> filter) {
         return (V) findLastGenericByFilter(filter, clavv);
@@ -189,6 +198,29 @@ public class ServiceImpl<T extends BaseModel, V extends BaseModel> implements Se
                 .uniqueResult();
         session.close();
         return o;
+    }
+
+    private List findGenericByFilterAndQuery(HashMap<String, Object> map, Class cl, String clause) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        StringBuffer sql = new StringBuffer("from " + cl.getName() + " p");
+        if (map.size() > 0) {
+            sql.append(" where 1=1 ");
+            for (String key : map.keySet()) {
+                Object param = map.get(key);
+                if (param instanceof String) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append("'").append(param).append("'");
+                } else if (param instanceof Number) {
+                    sql.append(" and ").append(key).append("=");
+                    sql.append(param);
+                }
+            }
+            sql.append(clause);
+        }
+        List list = session.createQuery(sql.toString() + " order by p.id desc")
+                .list();
+        session.close();
+        return list;
     }
 
     @Override

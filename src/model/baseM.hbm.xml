@@ -320,5 +320,31 @@
         </property>
     </class>
 
+    <class name="Message" table="User_Message">
+        <id name="id" type="long">
+            <column name="id" sql-type="NUMBER"/>
+            <generator class="native">
+                <param name="sequence">seq_user_message</param>
+            </generator>
+        </id>
+        <property name="body" type="java.lang.String">
+            <column name="body" sql-type="NVARCHAR2(1000)"/>
+        </property>
+        <property name="type" type="java.lang.Integer">
+            <column name="type" sql-type="NUMBER(1)"/>
+        </property>
+        <property name="userAccountId" type="java.lang.Long">
+            <column name="userAccountId" sql-type="NUMBER"/>
+        </property>
+        <property name="registerDate" type="java.sql.Date">
+            <column name="registerDate" sql-type="DATE"/>
+        </property>
+        <property name="msgId" type="java.lang.Long">
+            <column name="msgId" sql-type="NUMBER"/>
+        </property>
+        <property name="delivered" type="java.lang.Boolean">
+            <column name="delivered" sql-type="NUMBER(1)"/>
+        </property>
+    </class>
 
 </hibernate-mapping>
