@@ -1,0 +1,2 @@
+filePath =  F:/JavA/javacodes/EE/Morteza/testFi_les
+imagePath =  F:/JavA/javacodes/EE/Morteza/images_file

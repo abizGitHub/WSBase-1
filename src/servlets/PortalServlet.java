@@ -46,7 +46,7 @@ public class PortalServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("update") != null) {
             update(req);
-            resp.sendRedirect("/portal.do");
+            resp.sendRedirect("portal.do");
             return;
         }
         portalConfiq = managerPortalConfiq.loadAll().get(0);

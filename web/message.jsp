@@ -26,7 +26,7 @@
 <jsp:include page="header.jsp"/>
 <br/>
 <c:if test="${requestScope.get('userAccountId') != null}">
-    <form action="/message.do" style="padding: 1%;margin: 1%;" method="post">
+    <form action="message.do" style="padding: 1%;margin: 1%;" method="post">
         <input type="hidden" value="${requestScope.get('userAccountId')}" name="${'userAccountId'}"/>
         <input type="hidden" value="${requestScope.get('USERNAME')}" name="${'USERNAME'}"/>
         <input type="hidden" value="${Message.SENT}" name="${Consts.METHOD}"/>

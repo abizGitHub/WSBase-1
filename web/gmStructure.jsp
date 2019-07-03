@@ -26,7 +26,7 @@
     </tr>
     <c:set var="ua" value="${requestScope.list}"/>
     <c:forEach var="item" items="${ua}" varStatus="x">
-        <form action="gmStructure.do">
+        <form action="${pageContext.servletContext.contextPath}/gmStructure.do">
             <input type="hidden" name="id" value="${item.id}"/>
             <tr></tr>
             <tr></tr>

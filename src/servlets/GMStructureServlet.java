@@ -26,7 +26,7 @@ public class GMStructureServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter("id") != null) {
             update(req);
-            resp.sendRedirect("/gmStructure.do");
+            resp.sendRedirect("gmStructure.do");
             return;
         }
         ArrayList<GMStruct> list = manager.loadAll();

@@ -17,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -77,6 +78,7 @@ public class MessageController {
                 filter.put(Consts.USERACCOUNTID, loaded.getId());
                 filter.put("type", Message.SENT);
                 ArrayList<Message> messages = managerMessage.findByFilterAndQuery(filter, " and id > " + reqCnf.getLastMsgIsd());
+                Collections.reverse(messages);
                 for (Message message : messages) {
                     message.setMsgId(message.getId());
                 }

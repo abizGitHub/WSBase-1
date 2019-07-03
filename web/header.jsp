@@ -29,23 +29,23 @@
         </td>
         <td><a href="index.jsp">index</a>
         </td>
-        <td><a href="/gmStructure.do">General Model Structure</a>
+        <td><a href="gmStructure.do">General Model Structure</a>
         </td>
     </tr>
     <tr>
-        <td><a href="/generalModel.do?tableIx=1">General Model 1</a>
+        <td><a href="generalModel.do?tableIx=1">General Model 1</a>
         </td>
-        <td><a href="/generalModel.do?tableIx=2">General Model 2</a>
+        <td><a href="generalModel.do?tableIx=2">General Model 2</a>
         </td>
     </tr>
     <tr>
-        <td><a href="/gMView.do?tableIx=1">General Model View 1</a>
+        <td><a href="gMView.do?tableIx=1">General Model View 1</a>
         </td>
-        <td><a href="/gMView.do?tableIx=2">General Model View 2</a>
+        <td><a href="gMView.do?tableIx=2">General Model View 2</a>
         </td>
-        <td><a href="/portal.do">Portal</a>
+        <td><a href="portal.do">Portal</a>
         </td>
-        <td><a href="/message.do">Message</a>
+        <td><a href="message.do">Message</a>
         </td>
     </tr>
 </table>

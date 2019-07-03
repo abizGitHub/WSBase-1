@@ -34,7 +34,7 @@ public class UserToGroupServlet extends HttpServlet {
             UserToGroup loaded = manager.findById(Long.parseLong(register));
             loaded.setStatus(Group.REGISTERED);
             manager.save(loaded);
-            resp.sendRedirect("/userToGroup.do?" + Consts.USERACCOUNTID + "=" + req.getParameter(Consts.USERACCOUNTID));
+            resp.sendRedirect("userToGroup.do?" + Consts.USERACCOUNTID + "=" + req.getParameter(Consts.USERACCOUNTID));
             return;
         }
 

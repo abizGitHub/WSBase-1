@@ -24,7 +24,7 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public ArrayList<GeneralModel> getTestGeneralList() {
         ArrayList<GeneralModel> testGeneralList = new ArrayList<>();
-        for (int i = 0; i < 3000; i++) {
+        for (int i = 0; i < 100; i++) {
             GeneralModel generalModel = new GeneralModel();
             generalModel.fillMock();
             testGeneralList.add(generalModel);

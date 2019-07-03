@@ -35,7 +35,7 @@ public class MessageServlet extends HttpServlet {
             message.setUserAccountId(Long.valueOf(userAccountId));
             message.setRegisterDate(new Date());
             manager.save(message);
-            resp.sendRedirect("/message.do?" +
+            resp.sendRedirect("message.do?" +
                     Consts.USERACCOUNTID + "=" + userAccountId +
                     "&" + Consts.USERNAME + "=" + userName);
             return;

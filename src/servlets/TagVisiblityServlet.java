@@ -30,7 +30,7 @@ public class TagVisiblityServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameter(Consts.METHOD) != null && req.getParameter(Consts.METHOD).equalsIgnoreCase("update")) {
             update(req);
-            resp.sendRedirect("/tagVisiblity.do");
+            resp.sendRedirect("tagVisiblity.do");
             return;
         }
         ArrayList<TagVisiblity> list = manager.loadAll();
