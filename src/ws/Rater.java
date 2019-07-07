@@ -19,7 +19,7 @@ public class Rater implements Filter {
         try {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             Object attribute = request.getSession().getAttribute("XX");
-            System.out.println(":::" + attribute);
+            //System.out.println(":::" + attribute);
             if (attribute == null) {
                 request.getSession().setAttribute("XX", "SID:" + request.getSession().getId());
             }
@@ -42,7 +42,7 @@ public class Rater implements Filter {
                 servletRequest.getRequestDispatcher("../index.jsp").forward(servletRequest, servletResponse);
             }*/
         } catch (Exception e) {
-            servletRequest.getRequestDispatcher("../error.jsp").forward(servletRequest, servletResponse);
+            servletRequest.getRequestDispatcher("error.jsp").forward(servletRequest, servletResponse);
         }
     }
 

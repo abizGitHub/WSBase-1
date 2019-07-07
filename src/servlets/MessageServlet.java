@@ -1,6 +1,7 @@
 package servlets;
 
 import model.Message;
+import model.UserAccount;
 import service.ServiceFactory;
 import service.ServiceImpl;
 import util.Consts;
@@ -18,10 +19,11 @@ import java.util.Date;
 public class MessageServlet extends HttpServlet {
 
     ServiceImpl<Message, Message> manager;
-
+    ServiceImpl<UserAccount, UserAccount> managerUser;
     @Override
     public void init() throws ServletException {
         manager = ServiceFactory.getInstance().o().get(Message.class);
+        managerUser = ServiceFactory.getInstance().o().get(UserAccount.class);
     }
 
     @Override
@@ -35,6 +37,9 @@ public class MessageServlet extends HttpServlet {
             message.setUserAccountId(Long.valueOf(userAccountId));
             message.setRegisterDate(new Date());
             manager.save(message);
+            UserAccount user = managerUser.findById(Long.valueOf(userAccountId));
+            user.setLastMsgId(message.getId());
+            managerUser.save(user);
             resp.sendRedirect("message.do?" +
                     Consts.USERACCOUNTID + "=" + userAccountId +
                     "&" + Consts.USERNAME + "=" + userName);

@@ -1,5 +1,6 @@
 package ws;
 
+import cash.Cash;
 import model.*;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -72,17 +73,18 @@ public class GetGeneralModel {
             Confiq confiq = new Confiq();
             if (loaded != null) {
                 confiq.setHasUserPermision(true);
-                HashMap<String, Object> filter = new HashMap<>();
-                filter.put("userAccountId", loaded.getId());
-                Boolean hasPermission = managerUserAccountLog.findLastByFilter(filter).getHasPermission();
+                //HashMap<String, Object> filter = new HashMap<>();
+                //filter.put("userAccountId", loaded.getId());
+                Boolean hasPermission = loaded.getHasPermission();//managerUserAccountLog.findLastByFilter(filter).getHasPermission();
                 confiq.setHasUserPermision(hasPermission);
                 confiq.setConnectPeriod(PortalServlet.portalConfiq.getConnectPeriod());
                 confiq.setWait4Server(PortalServlet.portalConfiq.getWait4Server());
                 confiq.setHaveNewChange(PortalServlet.portalConfiq.getHaveNewChange());
-                filter.put("type", Message.SENT);
-                Message lastMsg = managerMessage.findLastByFilter(filter);
-                if (lastMsg != null)
-                    confiq.setLastMsgIsd(lastMsg.getId());
+                //filter.put("type", Message.SENT);
+                //Message lastMsg = managerMessage.findLastByFilter(filter);
+                if (loaded.getLastMsgId() != null)
+                    confiq.setLastMsgIsd(loaded.getLastMsgId());
+
             } else if (reqCnf.getUserId() == Consts.NEWUSERID) {
                 if (reqCnf.getUserName() == null || !reqCnf.getUserName().contains("-"))
                     return jsonResponse;
@@ -102,13 +104,17 @@ public class GetGeneralModel {
                     System.err.println("repeated : " + reqCnf.getUserName());
                 confiq.setHaveNewChange(true);
             } else return jsonResponse;
-            confiq.setTagVisiblity(managerTagVisiblity.loadAll());
-            confiq.setSendDetail(PortalServlet.portalConfiq.getSendDetail());
-            confiq.setLastTablesName(PortalServlet.portalConfiq.getLastTableNames());
-            confiq.setUpdateGroup(PortalServlet.portalConfiq.getUpdateGroup());
+            boolean passed = Cash.o().userIntervalPassed(loaded);
+            if (passed) {
+                confiq.setTagVisiblity(Cash.o().loadAllTagVis());
+                confiq.setSendDetail(PortalServlet.portalConfiq.getSendDetail());
+                confiq.setLastTablesName(PortalServlet.portalConfiq.getLastTableNames());
+                confiq.setUpdateGroup(PortalServlet.portalConfiq.getUpdateGroup());
+                confiq.setLastModelMapId(Cash.o().getLastModelMapId());
+                setLastModelMap(reqCnf, confiq);
+            }
             confiq.setLastIds(PortalServlet.portalConfiq.getLastIds());
-            confiq.setLastModelMap(GeneralServiceImpl.getInstance().getModelMapAfter(reqCnf.getLastModelMapId()));
-            confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(reqCnf.getLastModelMapId()));
+            //confiq.setModelMap2Delete(GeneralServiceImpl.getInstance().getModelMap2DeleteAfter(reqCnf.getLastModelMapId()));
             confiq.setLastGroupIds(PortalServlet.portalConfiq.getLastGrIds());
             JSONObject c = JsonUtil.parseConfiq(confiq);
             System.err.println(c.toString());
@@ -117,6 +123,32 @@ public class GetGeneralModel {
             e.printStackTrace();
         }
         return jsonResponse;
+    }
+
+    private void setLastModelMap(Confiq reqCnf, Confiq confiq) {
+        if (reqCnf.getLastModelMapId() == null)
+            reqCnf.setLastModelMapId(0l);
+        Long lastModelMapId = Cash.o().getLastModelMapId();
+        ArrayList<ModelMap> list = Cash.o().getModelMapAfter(reqCnf.getLastModelMapId());
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter((lastModelMapId / 2));
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter(lastModelMapId / 4);
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter(lastModelMapId / 7);
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter(lastModelMapId / 13);
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter(lastModelMapId / 23);
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter(lastModelMapId / 43);
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter(lastModelMapId / 60);
+        if (list.size() > 10)
+            list = Cash.o().getModelMapAfter(lastModelMapId / 90);
+        confiq.setLastModelMap(list);
+        confiq.setLastModelMap(Cash.o().getModelMapAfter(reqCnf.getLastModelMapId()));
+        confiq.setModelMap2Delete(Cash.o().getModelMap2DeleteAfter(reqCnf.getLastModelMapId()));
     }
 
     private void registerNewUser(Confiq confiq) {

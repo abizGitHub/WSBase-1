@@ -52,6 +52,9 @@
         <property name="permissionDays" type="java.lang.Integer">
             <column name="permissionDays" sql-type="NUMBER(3)"/>
         </property>
+        <property name="lastMsgId" type="java.lang.Long">
+            <column name="lastMsgId" sql-type="NUMBER(6)"/>
+        </property>
     </class>
 
     <class name="UserAccountLog" table="UserAccountLog">

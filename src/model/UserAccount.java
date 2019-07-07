@@ -12,6 +12,7 @@ public class UserAccount extends BaseModel{
     private String email ;
     private Boolean hasPermission;
     private Integer permissionDays;
+    private Long lastMsgId;
 
     public String getUserName() {
         return userName;
@@ -59,5 +60,13 @@ public class UserAccount extends BaseModel{
 
     public void setPermissionDays(Integer permissionDays) {
         this.permissionDays = permissionDays;
+    }
+
+    public Long getLastMsgId() {
+        return lastMsgId;
+    }
+
+    public void setLastMsgId(Long lastMsgId) {
+        this.lastMsgId = lastMsgId;
     }
 }

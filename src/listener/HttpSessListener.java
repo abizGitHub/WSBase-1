@@ -22,7 +22,7 @@ public class HttpSessListener implements HttpSessionListener {
         httpSessionEvent.getSession().setAttribute("sessId", "sessId : " + id);
         System.out.println("<HttpSessionListener> session Created : " + id);*/
         // httpSessionEvent.getSession().invalidate();
-        System.out.println("all session >"+SESSION_COUNT);
+        //System.out.println("all session >"+SESSION_COUNT);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class HttpSessListener implements HttpSessionListener {
         String id = httpSessionEvent.getSession().getId();
         System.out.println("<HttpSessionListener> session destroyed : " + id);*/
         SESSION_COUNT --;
-        System.err.println("all session >"+SESSION_COUNT);
+        //System.err.println("all session >"+SESSION_COUNT);
     }
 
 }

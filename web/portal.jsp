@@ -54,23 +54,23 @@
             </td>
             <td>
                 <select value='${pc.connectPeriod}' name="connectPeriod">
-                    <option value="1000">1 sec</option>
-                    <option value="5000">5 sec</option>
                     <option value="10000">10 sec</option>
+                    <option value="15000">15 sec</option>
                     <option value="20000">20 sec</option>
                     <option value="30000">30 sec</option>
-                    <option value="60000">60 sec</option>
+                    <option value="40000">40 sec</option>
+                    <option value="90000">90 sec</option>
                     <option value="600000">10 min</option>
                     <option value="1800000">30 min</option>
                 </select>
             </td>
             <td>
                 <select value='${pc.wait4Server}' name="wait4Server">
-                    <option value="1000">1 sec</option>
-                    <option value="5000">5 sec</option>
                     <option value="10000">10 sec</option>
-                    <option value="20000">20 sec</option>
+                    <option value="15000">15 sec</option>
                     <option value="30000">30 sec</option>
+                    <option value="60000">60 sec</option>
+                    <option value="80000">80 sec</option>
                 </select>
             </td>
             <td>${pc.lastModelMapId}</td>
