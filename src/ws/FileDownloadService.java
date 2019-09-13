@@ -82,10 +82,13 @@ public class FileDownloadService {
                               @PathParam("userName") String userName,
                               @PathParam("id") String id) {
 
+        System.out.println("############################################");
         Long idL = Long.parseLong(id);
         Auction auction = managerAuction.findById(idL);
         Long grId = auction.getBuTitle();
         File file = new File(AppConfig.filePath() + "/gr_" + grId + "/img_" + id + ".jpg");
+        System.out.println("file:" + AppConfig.filePath() + "/gr_" + grId + "/img_" + id + ".jpg" + "  id>" + id);
+        System.out.println("############################################");
         ResponseBuilder response = Response.ok(file);
         response.header("Content-Disposition", "attachment; filename=\"j.jpg\"");
         return response.build();
